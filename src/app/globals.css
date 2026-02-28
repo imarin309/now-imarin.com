@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+/* prose クラス用のタイポグラフィプラグイン（記事本文のスタイリング） */
+@plugin "@tailwindcss/typography";
+
+/* サイト全体のCSS変数 */
+:root {
+  --background: #fffaf5; /* 温かみのあるクリーム */
+  --foreground: #3d2008; /* ウォームブラウン */
+  --primary: #d4500a; /* オレンジ（メイン） */
+  --secondary: #f4924b; /* ライトオレンジ */
+  --accent: #fde3c8; /* ピーチ・クリーム */
+}
+
+/* Tailwind v4のテーマ設定 - CSS変数をTailwindのカラー・フォントとして登録 */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-noto-sans-jp), system-ui, sans-serif;
+}
+
+/* 記事見出しのグラデーション下線 */
+.prose :where(h2):not(:where([class~="not-prose"], [class~="not-prose"] *)) {
+  border-bottom: 3px solid transparent;
+  border-image: linear-gradient(to right, var(--secondary), var(--accent)) 1;
+  padding-bottom: 0.4em;
+}
+
+.prose
+  :where(h3):not(:where([class~="not-prose"], [class~="not-prose"] *))::before {
+  content: "";
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--secondary);
+  margin-right: 0.5em;
+  vertical-align: middle;
+}
+
+/* 全体の基本スタイル */
+body {
+  background: var(--background);
+  color: var(--foreground);
+}

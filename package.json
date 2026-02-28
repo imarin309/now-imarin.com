@@ -1,0 +1,34 @@
+{
+  "name": "now-imarin",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "velite --watch & next dev",
+    "build": "velite && next build",
+    "start": "next start",
+    "lint": "prettier --check . && eslint && markdownlint-cli2 \"content/**/*.mdx\"",
+    "format": "prettier --write . && eslint --fix && markdownlint-cli2 --fix \"content/**/*.mdx\""
+  },
+  "dependencies": {
+    "@tailwindcss/typography": "^0.5.19",
+    "markdownlint-cli2": "^0.20.0",
+    "next": "16.1.6",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "velite": "^0.3.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.1.6",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-mdx": "^3.6.2",
+    "prettier": "^3.8.1",
+    "sharp": "^0.34.5",
+    "tailwindcss": "^4",
+    "typescript": "^5"
+  }
+}
