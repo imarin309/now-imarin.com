@@ -26,8 +26,8 @@ export const metadata: Metadata = {
   },
   description: siteDescription,
   icons: {
-    icon: "/icon.png",
-    apple: "/apple-icon.png",
+    icon: "https://assets.now-imarin.com/meta/site-icon.webp",
+    apple: "https://assets.now-imarin.com/meta/site-icon.webp",
   },
   openGraph: {
     type: "website",
@@ -38,7 +38,13 @@ export const metadata: Metadata = {
       template: `%s | ${siteName}`,
     },
     description: siteDescription,
-    images: [{ url: "/header.jpeg", width: 1200, height: 630 }],
+    images: [
+      {
+        url: "https://assets.now-imarin.com/meta/header-pc.webp",
+        width: 1920,
+        height: 640,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",

@@ -6,12 +6,21 @@ export default function Header() {
   return (
     <header className="relative w-full">
       <Image
-        src="https://now-imarin.com/wp-content/uploads/2024/10/header-scaled.jpg"
+        src="https://assets.now-imarin.com/meta/header-pc.webp"
         alt={siteName}
         width={0}
         height={0}
         sizes="100vw"
-        className="h-auto w-full"
+        className="hidden h-auto w-full sm:block"
+        priority
+      />
+      <Image
+        src="https://assets.now-imarin.com/meta/header-mobile.webp"
+        alt={siteName}
+        width={0}
+        height={0}
+        sizes="100vw"
+        className="h-auto w-full sm:hidden"
         priority
       />
       <div className="absolute inset-0 bg-orange-950/40" />
