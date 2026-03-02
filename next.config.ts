@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "assets.now-imarin.com",
+      },
+      {
+        protocol: "https",
         hostname: "placehold.co",
       },
       {
