@@ -1,1 +1,6 @@
-export const mdxComponents = {};
+import { RakutenCard, RakutenCardImage } from "./RakutenCard";
+
+export const mdxComponents = {
+  RakutenCard,
+  RakutenCardImage,
+};

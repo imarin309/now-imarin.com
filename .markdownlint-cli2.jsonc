@@ -2,7 +2,7 @@
   "config": {
     "MD013": false,
     "MD033": {
-      "allowed_elements": [],
+      "allowed_elements": ["RakutenCard", "RakutenCardImage"],
     },
     "MD036": false,
     "MD001": false,
