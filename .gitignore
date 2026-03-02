@@ -36,5 +36,8 @@ next-env.d.ts
 # velite
 .velite/
 
-# WordPress export
 *.xml
+*.webp
+/scripts/data/
+/scripts/dataEdited/
+/scripts/
