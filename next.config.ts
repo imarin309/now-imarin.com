@@ -25,6 +25,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "now-imarin.com",
       },
+      {
+        protocol: "https",
+        hostname: "hbb.afl.rakuten.co.jp",
+      },
+      {
+        protocol: "https",
+        hostname: "static.affiliate.rakuten.co.jp",
+      },
     ],
   },
 };
