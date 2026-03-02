@@ -1,4 +1,5 @@
 import { defineConfig, defineCollection, s } from "velite";
+import remarkBreaks from "remark-breaks";
 
 const posts = defineCollection({
   name: "Post",
@@ -47,7 +48,7 @@ export default defineConfig({
   },
   collections: { posts, pages },
   mdx: {
-    remarkPlugins: [],
+    remarkPlugins: [remarkBreaks],
     rehypePlugins: [],
   },
 });
