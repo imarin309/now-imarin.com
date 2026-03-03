@@ -36,7 +36,6 @@ next-env.d.ts
 # velite
 .velite/
 
-*.xml
 *.webp
 /scripts/data/
 /scripts/dataEdited/
