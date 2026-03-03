@@ -9,7 +9,6 @@ export default function Header() {
           media="(min-width: 640px)"
           srcSet="https://assets.now-imarin.com/meta/header-pc.webp"
         />
-        {}
         <img
           src="https://assets.now-imarin.com/meta/header-mobile.webp"
           alt={siteName}
