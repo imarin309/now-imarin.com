@@ -25,9 +25,9 @@ export async function GET() {
   const rss = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>${siteName}</title>
+    <title><![CDATA[${siteName}]]></title>
     <link>${siteUrl}</link>
-    <description>${siteDescription}</description>
+    <description><![CDATA[${siteDescription}]]></description>
     <language>ja</language>
     <atom:link href="${siteUrl}/feed.xml" rel="self" type="application/rss+xml"/>
     ${items}
