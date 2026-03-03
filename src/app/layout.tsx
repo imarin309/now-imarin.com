@@ -77,10 +77,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <GoogleAnalytics />
       <body
         className={`${notoSansJP.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
+        {process.env.NODE_ENV === "production" &&
+          process.env.CF_PAGES_BRANCH === "main" && <GoogleAnalytics />}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
