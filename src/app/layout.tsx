@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import RecommendedPosts from "@/components/RecommendedPosts";
+import GoogleAnalytics from "@/components/google/GoogleAnalytics";
 import {
   siteName,
   siteDescription,
@@ -76,6 +77,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
+      <GoogleAnalytics />
       <body
         className={`${notoSansJP.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
