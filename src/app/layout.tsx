@@ -6,6 +6,7 @@ import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import RecommendedPosts from "@/components/RecommendedPosts";
 import GoogleAnalytics from "@/components/google/GoogleAnalytics";
+import GoogleAdSense from "@/components/google/GoogleAdSense";
 import {
   siteName,
   siteDescription,
@@ -81,7 +82,12 @@ export default function RootLayout({
         className={`${notoSansJP.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
         {process.env.NODE_ENV === "production" &&
-          process.env.CF_PAGES_BRANCH === "main" && <GoogleAnalytics />}
+          process.env.CF_PAGES_BRANCH === "main" && (
+            <>
+              <GoogleAnalytics />
+              <GoogleAdSense />
+            </>
+          )}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
