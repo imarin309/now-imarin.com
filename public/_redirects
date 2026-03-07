@@ -4,4 +4,6 @@
 /ads.txt /ads.txt 200
 /sitemap.xml /sitemap.xml 200
 /feed.xml /feed.xml 200
+/*.* /:splat 200
+/:slug/ /posts/:slug 301
 /:slug /posts/:slug 301
