@@ -1,1 +1,7 @@
+/about /about 200
+/privacy-policy /privacy-policy 200
+/robots.txt /robots.txt 200
+/ads.txt /ads.txt 200
+/sitemap.xml /sitemap.xml 200
+/feed.xml /feed.xml 200
 /:slug /posts/:slug 301
