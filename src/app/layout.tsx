@@ -50,6 +50,12 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    title: {
+      default: siteName,
+      template: `%s | ${siteName}`,
+    },
+    description: siteDescription,
+    images: ["https://assets.now-imarin.com/meta/og-image.webp"],
   },
   alternates: {
     types: {
