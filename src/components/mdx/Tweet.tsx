@@ -36,11 +36,11 @@ function loadTwitterScript(): Promise<void> {
     script.addEventListener("load", () => {
       clearTimeout(timeout);
       resolve();
-    });
+    }, { once: true });
     script.addEventListener("error", () => {
       clearTimeout(timeout);
       reject(new Error("Twitter widget script failed to load"));
-    });
+    }, { once: true });
   });
 }
 
