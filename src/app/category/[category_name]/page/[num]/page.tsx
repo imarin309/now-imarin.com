@@ -14,9 +14,20 @@ export async function generateMetadata({
   params: Promise<{ category_name: string; num: string }>;
 }): Promise<Metadata> {
   const { category_name, num } = await params;
+  const category = getCategoryBySlug(category_name);
+  if (!category) return {};
+
+  const filteredCount = posts.filter(
+    (post) => post.category === category_name,
+  ).length;
+  const totalPages = Math.ceil(filteredCount / POSTS_PER_PAGE);
+  const pageNum = Number(num);
+  if (!Number.isInteger(pageNum) || pageNum <= 1 || pageNum > totalPages) {
+    return {};
+  }
   return {
     alternates: {
-      canonical: `/category/${category_name}/page/${num}`,
+      canonical: `/category/${category_name}/page/${pageNum}`,
     },
   };
 }

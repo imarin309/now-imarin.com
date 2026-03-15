@@ -19,9 +19,13 @@ export async function generateMetadata({
   params: Promise<{ num: string }>;
 }): Promise<Metadata> {
   const { num } = await params;
+  const pageNum = Number(num);
+  if (!Number.isInteger(pageNum) || pageNum <= 1 || pageNum > totalPages) {
+    return {};
+  }
   return {
     alternates: {
-      canonical: `/page/${num}`,
+      canonical: `/page/${pageNum}`,
     },
   };
 }
