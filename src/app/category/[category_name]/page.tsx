@@ -24,6 +24,9 @@ export async function generateMetadata({
   if (!category) return {};
   return {
     title: `${category.name}の記事一覧`,
+    alternates: {
+      canonical: `/category/${category_name}`,
+    },
   };
 }
 

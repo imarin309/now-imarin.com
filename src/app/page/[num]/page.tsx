@@ -2,6 +2,7 @@
  * ページネーション - 2ページ目以降の記事一覧
  */
 import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 import PostList from "@/components/PostList";
 import { posts } from "#site/content";
 import { POSTS_PER_PAGE } from "@/constants/config";
@@ -11,6 +12,19 @@ const sortedPosts = posts.sort(
 );
 
 const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE);
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ num: string }>;
+}): Promise<Metadata> {
+  const { num } = await params;
+  return {
+    alternates: {
+      canonical: `/page/${num}`,
+    },
+  };
+}
 
 export function generateStaticParams() {
   if (totalPages <= 1) {

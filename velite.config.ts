@@ -1,5 +1,7 @@
 import { defineConfig, defineCollection, s } from "velite";
 import remarkBreaks from "remark-breaks";
+import remarkDirective from "remark-directive";
+import { remarkTextStyle } from "./src/lib/remark-text-style";
 
 const posts = defineCollection({
   name: "Post",
@@ -48,7 +50,7 @@ export default defineConfig({
   },
   collections: { posts, pages },
   mdx: {
-    remarkPlugins: [remarkBreaks],
+    remarkPlugins: [remarkBreaks, remarkDirective, remarkTextStyle],
     rehypePlugins: [],
   },
 });
