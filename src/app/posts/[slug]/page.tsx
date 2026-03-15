@@ -38,6 +38,14 @@ export async function generateMetadata({
         images: [{ url: post.coverImage }],
       }),
     },
+    twitter: {
+      card: "summary_large_image",
+      title: post.title,
+      description: post.description,
+      ...(post.coverImage && {
+        images: [post.coverImage],
+      }),
+    },
   };
 }
 
