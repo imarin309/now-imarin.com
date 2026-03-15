@@ -1,9 +1,16 @@
 /**
  * トップページ - 最新記事一覧を表示（1ページ目）
  */
+import type { Metadata } from "next";
 import PostList from "@/components/PostList";
 import { posts } from "#site/content";
 import { POSTS_PER_PAGE } from "@/constants/config";
+
+export const metadata: Metadata = {
+  alternates: {
+    canonical: "/",
+  },
+};
 
 export default function Home() {
   const sortedPosts = posts.sort(

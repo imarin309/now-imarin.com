@@ -2,10 +2,35 @@
  * カテゴリー別記事一覧 - ページネーション（2ページ目以降）
  */
 import { redirect, notFound } from "next/navigation";
+import type { Metadata } from "next";
 import PostList from "@/components/PostList";
 import { posts } from "#site/content";
 import { getAllCategories, getCategoryBySlug } from "@/constants/category";
 import { POSTS_PER_PAGE } from "@/constants/config";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ category_name: string; num: string }>;
+}): Promise<Metadata> {
+  const { category_name, num } = await params;
+  const category = getCategoryBySlug(category_name);
+  if (!category) return {};
+
+  const filteredCount = posts.filter(
+    (post) => post.category === category_name,
+  ).length;
+  const totalPages = Math.ceil(filteredCount / POSTS_PER_PAGE);
+  const pageNum = Number(num);
+  if (!Number.isInteger(pageNum) || pageNum <= 1 || pageNum > totalPages) {
+    return {};
+  }
+  return {
+    alternates: {
+      canonical: `/category/${category_name}/page/${pageNum}`,
+    },
+  };
+}
 
 export function generateStaticParams() {
   const allParams: { category_name: string; num: string }[] = [];
