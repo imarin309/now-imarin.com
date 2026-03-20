@@ -1,6 +1,8 @@
 # 静的ページ（拡張子なしのため /*.* では捕捉されず /:slug に落ちるのを防ぐ）
 /about /about 200
+/about/ /about 200
 /privacy-policy /privacy-policy 200
+/privacy-policy/ /privacy-policy 200
 
 # 拡張子付きファイル（JS・CSS・画像・robots.txt など）を直接配信
 /*.* /:splat 200
