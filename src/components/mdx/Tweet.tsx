@@ -33,14 +33,22 @@ function loadTwitterScript(): Promise<void> {
     const timeout = setTimeout(() => {
       reject(new Error("Twitter widget script timed out"));
     }, TWITTER_SCRIPT_TIMEOUT);
-    script.addEventListener("load", () => {
-      clearTimeout(timeout);
-      resolve();
-    }, { once: true });
-    script.addEventListener("error", () => {
-      clearTimeout(timeout);
-      reject(new Error("Twitter widget script failed to load"));
-    }, { once: true });
+    script.addEventListener(
+      "load",
+      () => {
+        clearTimeout(timeout);
+        resolve();
+      },
+      { once: true },
+    );
+    script.addEventListener(
+      "error",
+      () => {
+        clearTimeout(timeout);
+        reject(new Error("Twitter widget script failed to load"));
+      },
+      { once: true },
+    );
   });
 }
 
