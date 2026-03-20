@@ -1,9 +1,18 @@
+# 静的ページ（拡張子なしのため /*.* では捕捉されず /:slug に落ちるのを防ぐ）
 /about /about 200
 /privacy-policy /privacy-policy 200
-/robots.txt /robots.txt 200
-/ads.txt /ads.txt 200
-/sitemap.xml /sitemap.xml 200
-/feed.xml /feed.xml 200
+
+# 拡張子付きファイル（JS・CSS・画像・robots.txt など）を直接配信
 /*.* /:splat 200
+
+# Next.js の内部ディレクトリパスが /:slug に誤ってマッチするのを防ぐ
+/posts / 301
+/posts/ / 301
+/category / 301
+/category/ / 301
+/page / 301
+/page/ / 301
+
+# 旧 WordPress のスラッグ URL を /posts/:slug へリダイレクト
 /:slug/ /posts/:slug 301
 /:slug /posts/:slug 301
