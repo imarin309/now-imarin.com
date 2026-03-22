@@ -15,10 +15,15 @@ interface RakutenCardImageProps {
 
 export function RakutenCard({ href, imgSrc, title, price }: RakutenCardProps) {
   return (
-    <div className="not-prose my-6 rounded-xl border border-accent overflow-hidden shadow-sm relative">
-      <span className="absolute top-1.5 left-2 text-[10px] font-medium text-gray-400 leading-none">
-        ads
-      </span>
+    <div className="not-prose my-8 rounded-xl border-2 border-primary overflow-hidden shadow-md relative">
+      <div className="bg-primary px-3 py-1 flex items-center gap-1.5">
+        <span className="text-[10px] font-medium text-white/70 leading-none">
+          ads
+        </span>
+        <span className="text-xs font-bold text-white leading-none">
+          楽天市場
+        </span>
+      </div>
       <a
         href={href}
         target="_blank"
@@ -39,7 +44,7 @@ export function RakutenCard({ href, imgSrc, title, price }: RakutenCardProps) {
           </p>
           <div>
             <p className="text-sm font-bold text-primary mt-2">{price}</p>
-            <div className="mt-2 inline-flex items-center gap-2 bg-[#bf0000] text-white text-xs font-medium px-4 py-1.5 rounded-full">
+            <div className="mt-2 inline-flex items-center gap-2 bg-white text-[#bf0000] text-xs font-medium px-4 py-1.5 rounded-full border-2 border-[#bf0000]">
               <Image
                 src="https://static.affiliate.rakuten.co.jp/makelink/rl.svg"
                 alt="楽天"
