@@ -2,6 +2,7 @@ import { defineConfig, defineCollection, s } from "velite";
 import remarkBreaks from "remark-breaks";
 import remarkDirective from "remark-directive";
 import { remarkTextStyle } from "./src/lib/remark-text-style";
+import { remarkLinkCard } from "./src/lib/remark-link-card";
 
 const posts = defineCollection({
   name: "Post",
@@ -15,6 +16,7 @@ const posts = defineCollection({
       coverImage: s.string().optional(),
       noindex: s.boolean().optional().default(false),
       slug: s.path(),
+      body: s.raw(),
       content: s.mdx(),
     })
     .transform((data) => ({
@@ -50,7 +52,12 @@ export default defineConfig({
   },
   collections: { posts, pages },
   mdx: {
-    remarkPlugins: [remarkBreaks, remarkDirective, remarkTextStyle],
+    remarkPlugins: [
+      remarkBreaks,
+      remarkDirective,
+      remarkTextStyle,
+      remarkLinkCard,
+    ],
     rehypePlugins: [],
   },
 });

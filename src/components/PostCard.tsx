@@ -2,9 +2,29 @@ import Image from "next/image";
 import Link from "next/link";
 import { getCategoryName } from "@/constants/category";
 
+function getExcerpt(body: string, length = 100): string {
+  let text = body
+    .replace(/^---[\s\S]*?---\n?/, "") // frontmatter
+    .replace(/```[\s\S]*?```/g, "") // code blocks
+    .replace(/<[A-Z][^>]*>[\s\S]*?<\/[A-Z][^>]*>/g, "") // JSX components
+    .replace(/<[A-Z][^>]*\/>/g, "") // self-closing JSX
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, "$1") // markdown links
+    .replace(/`[^`\n]*`/g, "") // inline code
+    .replace(/https?:\/\/\S+/g, "") // bare URLs
+    .replace(/#{1,6}\s/g, "") // headings
+    .replace(/[*_~>#-]/g, ""); // markdown symbols
+
+  // テキストディレクティブ (:large[...] など) を最大3段ネストまで展開
+  for (let i = 0; i < 3; i++) {
+    text = text.replace(/:[a-z]+\[([^\[\]]*)\]/g, "$1");
+  }
+
+  return text.replace(/\s+/g, " ").trim().slice(0, length);
+}
+
 interface PostCardProps {
   title: string;
-  description?: string;
+  body: string;
   date: string;
   slug: string;
   coverImage?: string;
@@ -13,7 +33,7 @@ interface PostCardProps {
 
 export default function PostCard({
   title,
-  description,
+  body,
   date,
   slug,
   coverImage,
@@ -49,11 +69,9 @@ export default function PostCard({
           <h2 className="mt-2 text-lg font-semibold leading-snug text-amber-800 group-hover:text-orange-600">
             {title}
           </h2>
-          {description && (
-            <p className="mt-2 line-clamp-2 text-sm text-amber-600">
-              {description}
-            </p>
-          )}
+          <p className="mt-2 line-clamp-2 text-sm text-amber-600">
+            {getExcerpt(body)}
+          </p>
         </div>
       </Link>
     </article>
