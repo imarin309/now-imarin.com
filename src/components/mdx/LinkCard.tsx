@@ -15,7 +15,13 @@ export function LinkCard({
   image,
   favicon,
 }: LinkCardProps) {
-  const domain = new URL(url).hostname;
+  const domain = (() => {
+    try {
+      return new URL(url).hostname;
+    } catch {
+      return url;
+    }
+  })();
 
   return (
     <div className="not-prose my-4">

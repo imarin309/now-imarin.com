@@ -77,9 +77,18 @@ export const remarkLinkCard: Plugin<[], Root> = () => {
       }
     });
 
+    const uniqueUrls = [...new Set(tasks.map((t) => t.url))];
+    const CONCURRENCY = 5;
+    const ogpCache = new Map<string, OGPData>();
+    for (let i = 0; i < uniqueUrls.length; i += CONCURRENCY) {
+      const chunk = uniqueUrls.slice(i, i + CONCURRENCY);
+      const results = await Promise.all(chunk.map((url) => fetchOGP(url)));
+      chunk.forEach((url, j) => ogpCache.set(url, results[j]));
+    }
+
     await Promise.all(
       tasks.map(async ({ parent, index, url }) => {
-        const ogp = await fetchOGP(url);
+        const ogp = ogpCache.get(url)!;
         parent.children[index] = {
           type: "mdxJsxFlowElement",
           name: "LinkCard",
