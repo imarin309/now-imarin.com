@@ -10,9 +10,9 @@ interface OGPData {
 }
 
 async function fetchOGP(url: string): Promise<OGPData> {
-  const domain = new URL(url).hostname;
-  const favicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
   try {
+    const domain = new URL(url).hostname;
+    const favicon = `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
     const res = await fetch(url, {
       headers: { "User-Agent": "Mozilla/5.0 (compatible; LinkCardBot/1.0)" },
       signal: AbortSignal.timeout(5000),
@@ -46,7 +46,7 @@ async function fetchOGP(url: string): Promise<OGPData> {
       favicon,
     };
   } catch {
-    return { title: url, description: "", image: "", favicon };
+    return { title: url, description: "", image: "", favicon: "" };
   }
 }
 
@@ -67,7 +67,8 @@ export const remarkLinkCard: Plugin<[], Root> = () => {
         const linkText = child.children
           .map((c) => ("value" in c ? c.value : ""))
           .join("");
-        if (linkText === child.url) url = child.url;
+        if (linkText === child.url && URL_REGEX.test(child.url))
+          url = child.url;
       } else if (child.type === "text" && URL_REGEX.test(child.value.trim())) {
         url = child.value.trim();
       }

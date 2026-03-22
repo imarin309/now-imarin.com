@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import { posts } from "#site/content";
 import { MDXContent } from "@/components/mdx/MDXContent";
-import { DevWordCount } from "@/components/DevWordCount";
 import { getCategoryName } from "@/constants/category";
 import { siteName, siteUrl, siteAuthor } from "@/constants/meta";
 import type { Metadata } from "next";
@@ -113,7 +112,6 @@ export default async function PostPage({ params }: PostPageProps) {
           <MDXContent code={post.content} />
         </div>
       </article>
-      <DevWordCount body={post.body} />
     </>
   );
 }
