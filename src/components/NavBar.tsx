@@ -138,6 +138,12 @@ export default function NavBar() {
           >
             about
           </Link>
+          <Link
+            href="/contact"
+            className="text-amber-700 transition-colors hover:text-orange-600"
+          >
+            contact
+          </Link>
         </div>
       </div>
     </nav>
