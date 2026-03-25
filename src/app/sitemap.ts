@@ -1,8 +1,13 @@
 import { MetadataRoute } from "next";
-import { posts } from "#site/content";
+import { posts, pages } from "#site/content";
 import { siteUrl } from "@/constants/meta";
 
 export const dynamic = "force-static";
+
+function getPageDate(slug: string) {
+  const page = pages.find((p) => p.slug === slug);
+  return page ? new Date(page.date) : undefined;
+}
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const postEntries: MetadataRoute.Sitemap = posts
@@ -23,19 +28,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: `${siteUrl}/about`,
-      lastModified: new Date(),
+      lastModified: getPageDate("about"),
       changeFrequency: "monthly",
       priority: 0.5,
     },
     {
       url: `${siteUrl}/privacy-policy`,
-      lastModified: new Date(),
+      lastModified: getPageDate("privacy-policy"),
       changeFrequency: "monthly",
       priority: 0.3,
     },
     {
       url: `${siteUrl}/contact`,
-      lastModified: new Date(),
+      lastModified: new Date("2026-03-25"),
       changeFrequency: "monthly",
       priority: 0.3,
     },
