@@ -3,6 +3,8 @@
 /about/ /about 200
 /privacy-policy /privacy-policy 200
 /privacy-policy/ /privacy-policy 200
+/contact /contact 200
+/contact/ /contact 200
 
 # 拡張子付きファイル（JS・CSS・画像・robots.txt など）を直接配信
 /*.* /:splat 200
