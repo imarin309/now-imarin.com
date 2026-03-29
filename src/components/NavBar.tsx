@@ -81,7 +81,11 @@ export default function NavBar() {
       <div className="mx-auto max-w-4xl px-4 py-3">
         <div className="flex items-center justify-between">
           {/* アイコン + サイトタイトル */}
-          <Link href="/" className="flex items-center gap-2">
+          <Link
+            href="/"
+            onClick={() => setIsMobileOpen(false)}
+            className="flex items-center gap-2"
+          >
             <Image
               src="https://assets.now-imarin.com/meta/site-icon.webp"
               alt="now-imarin.com"
@@ -177,6 +181,8 @@ export default function NavBar() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-hidden="true"
+                focusable="false"
               >
                 <path
                   strokeLinecap="round"
@@ -192,6 +198,8 @@ export default function NavBar() {
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
+                aria-hidden="true"
+                focusable="false"
               >
                 <path
                   strokeLinecap="round"
