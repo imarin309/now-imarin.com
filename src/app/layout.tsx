@@ -98,8 +98,8 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
-        <Header />
         <NavBar />
+        <Header />
         <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-8">
           {children}
         </main>
