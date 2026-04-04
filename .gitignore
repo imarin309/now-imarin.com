@@ -40,3 +40,5 @@ next-env.d.ts
 /scripts/data/
 /scripts/dataEdited/
 /scripts/
+
+content/drafts/

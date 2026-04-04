@@ -1,4 +1,5 @@
 {
+  "ignores": ["content/drafts/**"],
   "config": {
     "MD013": false,
     "MD033": {
