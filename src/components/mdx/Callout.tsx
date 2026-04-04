@@ -34,7 +34,9 @@ export function Callout({ type = "warning", children }: CalloutProps) {
     <div
       className={`not-prose my-4 flex gap-3 rounded-lg border-l-4 px-4 py-3 ${className}`}
     >
-      <span className="mt-0.5 shrink-0 text-lg leading-snug" aria-hidden="true">{icon}</span>
+      <span className="mt-0.5 shrink-0 text-lg leading-snug" aria-hidden="true">
+        {icon}
+      </span>
       <div className="text-sm italic leading-relaxed [&_a]:underline [&_p]:inline">
         <span className="mr-1 font-bold not-italic">{label}</span>
         {children}
