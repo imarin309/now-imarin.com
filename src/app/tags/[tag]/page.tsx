@@ -6,10 +6,10 @@ import type { Metadata } from "next";
 import PostList from "@/components/PostList";
 import { posts } from "#site/content";
 import { POSTS_PER_PAGE } from "@/constants/config";
-import { getAllTags } from "@/lib/tags";
+import { getAllTags, getTagName } from "@/constants/tag";
 
 export function generateStaticParams() {
-  return getAllTags().map((tag) => ({ tag }));
+  return getAllTags().map(({ slug }) => ({ tag: slug }));
 }
 
 export async function generateMetadata({
@@ -18,10 +18,11 @@ export async function generateMetadata({
   params: Promise<{ tag: string }>;
 }): Promise<Metadata> {
   const { tag } = await params;
+  const tagName = getTagName(tag);
   return {
-    title: `#${tag} の記事一覧`,
+    title: `#${tagName} の記事一覧`,
     alternates: {
-      canonical: `/tags/${encodeURIComponent(tag)}`,
+      canonical: `/tags/${tag}`,
     },
   };
 }
@@ -41,16 +42,17 @@ export default async function TagPage({
     notFound();
   }
 
+  const tagName = getTagName(tag);
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
   const pagePosts = filteredPosts.slice(0, POSTS_PER_PAGE);
 
   return (
     <PostList
       posts={pagePosts}
-      title={`#${tag} の記事一覧`}
+      title={`#${tagName} の記事一覧`}
       currentPage={1}
       totalPages={totalPages}
-      basePath={`/tags/${encodeURIComponent(tag)}`}
+      basePath={`/tags/${tag}`}
     />
   );
 }
