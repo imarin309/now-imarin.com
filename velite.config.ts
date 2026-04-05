@@ -14,6 +14,7 @@ const posts = defineCollection({
       date: s.isodate(),
       category: s.string(),
       coverImage: s.string().optional(),
+      tags: s.array(s.string()).optional().default([]),
       noindex: s.boolean().optional().default(false),
       slug: s.path(),
       body: s.raw(),
