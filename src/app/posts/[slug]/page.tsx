@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { posts } from "#site/content";
+import TagBadge from "@/components/TagBadge";
 import { MDXContent } from "@/components/mdx/MDXContent";
 import { getCategoryName } from "@/constants/category";
 import { siteName, siteUrl, siteAuthor } from "@/constants/meta";
@@ -101,10 +102,13 @@ export default async function PostPage({ params }: PostPageProps) {
           <h1 className="mt-2 text-2xl font-bold tracking-tight text-amber-900 sm:text-3xl">
             {post.title}
           </h1>
-          <div className="mt-4">
+          <div className="mt-4 flex flex-wrap items-center gap-2">
             <span className="bg-orange-600 px-3 py-1 text-xs text-white">
               {getCategoryName(post.category)}
             </span>
+            {post.tags.map((tag) => (
+              <TagBadge key={tag} tag={tag} />
+            ))}
           </div>
         </header>
 

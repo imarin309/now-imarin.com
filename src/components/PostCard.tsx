@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getCategoryName } from "@/constants/category";
+import TagBadge from "@/components/TagBadge";
 
 function getExcerpt(body: string, length = 100): string {
   let text = body
@@ -29,6 +30,7 @@ interface PostCardProps {
   slug: string;
   coverImage?: string;
   category: string;
+  tags?: string[];
 }
 
 export default function PostCard({
@@ -38,6 +40,7 @@ export default function PostCard({
   slug,
   coverImage,
   category,
+  tags = [],
 }: PostCardProps) {
   const formattedDate = new Date(date).toLocaleDateString("ja-JP", {
     year: "numeric",
@@ -74,6 +77,13 @@ export default function PostCard({
           </p>
         </div>
       </Link>
+      {tags.length > 0 && (
+        <div className="flex flex-wrap gap-1 px-4 pb-4 sm:pl-[calc(18rem+1rem)]">
+          {tags.map((tag) => (
+            <TagBadge key={tag} tag={tag} />
+          ))}
+        </div>
+      )}
     </article>
   );
 }
