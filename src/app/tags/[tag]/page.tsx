@@ -6,16 +6,7 @@ import type { Metadata } from "next";
 import PostList from "@/components/PostList";
 import { posts } from "#site/content";
 import { POSTS_PER_PAGE } from "@/constants/config";
-
-function getAllTags(): string[] {
-  const tagSet = new Set<string>();
-  for (const post of posts) {
-    for (const tag of post.tags) {
-      tagSet.add(tag);
-    }
-  }
-  return Array.from(tagSet);
-}
+import { getAllTags } from "@/lib/tags";
 
 export function generateStaticParams() {
   return getAllTags().map((tag) => ({ tag }));
@@ -27,11 +18,10 @@ export async function generateMetadata({
   params: Promise<{ tag: string }>;
 }): Promise<Metadata> {
   const { tag } = await params;
-  const decodedTag = decodeURIComponent(tag);
   return {
-    title: `#${decodedTag} の記事一覧`,
+    title: `#${tag} の記事一覧`,
     alternates: {
-      canonical: `/tags/${tag}`,
+      canonical: `/tags/${encodeURIComponent(tag)}`,
     },
   };
 }
@@ -42,10 +32,9 @@ export default async function TagPage({
   params: Promise<{ tag: string }>;
 }) {
   const { tag } = await params;
-  const decodedTag = decodeURIComponent(tag);
 
   const filteredPosts = posts
-    .filter((post) => post.tags.includes(decodedTag))
+    .filter((post) => post.tags.includes(tag))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   if (filteredPosts.length === 0) {
@@ -58,10 +47,10 @@ export default async function TagPage({
   return (
     <PostList
       posts={pagePosts}
-      title={`#${decodedTag} の記事一覧`}
+      title={`#${tag} の記事一覧`}
       currentPage={1}
       totalPages={totalPages}
-      basePath={`/tags/${tag}`}
+      basePath={`/tags/${encodeURIComponent(tag)}`}
     />
   );
 }

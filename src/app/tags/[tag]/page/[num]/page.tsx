@@ -6,16 +6,7 @@ import type { Metadata } from "next";
 import PostList from "@/components/PostList";
 import { posts } from "#site/content";
 import { POSTS_PER_PAGE } from "@/constants/config";
-
-function getAllTags(): string[] {
-  const tagSet = new Set<string>();
-  for (const post of posts) {
-    for (const tag of post.tags) {
-      tagSet.add(tag);
-    }
-  }
-  return Array.from(tagSet);
-}
+import { getAllTags } from "@/lib/tags";
 
 export function generateStaticParams() {
   const allParams: { tag: string; num: string }[] = [];
@@ -42,12 +33,9 @@ export async function generateMetadata({
   params: Promise<{ tag: string; num: string }>;
 }): Promise<Metadata> {
   const { tag, num } = await params;
-  const decodedTag = decodeURIComponent(tag);
   const pageNum = Number(num);
 
-  const filteredCount = posts.filter((post) =>
-    post.tags.includes(decodedTag),
-  ).length;
+  const filteredCount = posts.filter((post) => post.tags.includes(tag)).length;
   const totalPages = Math.ceil(filteredCount / POSTS_PER_PAGE);
 
   if (!Number.isInteger(pageNum) || pageNum <= 1 || pageNum > totalPages) {
@@ -55,7 +43,7 @@ export async function generateMetadata({
   }
   return {
     alternates: {
-      canonical: `/tags/${tag}/page/${pageNum}`,
+      canonical: `/tags/${encodeURIComponent(tag)}/page/${pageNum}`,
     },
   };
 }
@@ -66,10 +54,9 @@ export default async function TagPaginatedPage({
   params: Promise<{ tag: string; num: string }>;
 }) {
   const { tag, num } = await params;
-  const decodedTag = decodeURIComponent(tag);
 
   const filteredPosts = posts
-    .filter((post) => post.tags.includes(decodedTag))
+    .filter((post) => post.tags.includes(tag))
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
   if (filteredPosts.length === 0) {
@@ -80,7 +67,7 @@ export default async function TagPaginatedPage({
   const pageNum = Number(num);
 
   if (pageNum === 1 || pageNum > totalPages) {
-    redirect(`/tags/${tag}`);
+    redirect(`/tags/${encodeURIComponent(tag)}`);
   }
 
   const start = (pageNum - 1) * POSTS_PER_PAGE;
@@ -89,10 +76,10 @@ export default async function TagPaginatedPage({
   return (
     <PostList
       posts={pagePosts}
-      title={`#${decodedTag} の記事一覧 - ページ ${pageNum}`}
+      title={`#${tag} の記事一覧 - ページ ${pageNum}`}
       currentPage={pageNum}
       totalPages={totalPages}
-      basePath={`/tags/${tag}`}
+      basePath={`/tags/${encodeURIComponent(tag)}`}
     />
   );
 }

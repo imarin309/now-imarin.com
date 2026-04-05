@@ -49,25 +49,25 @@ export default function PostCard({
   });
 
   return (
-    <article className="group overflow-hidden border border-orange-100 bg-white transition-all hover:border-orange-200 hover:shadow-lg">
-      <Link href={`/posts/${slug}`} className="sm:flex">
-        {coverImage && (
-          <div className="relative aspect-[1200/675] overflow-hidden sm:w-72 sm:shrink-0">
-            <Image
-              src={coverImage}
-              alt={title}
-              fill
-              sizes="(min-width: 640px) 288px, 100vw"
-              className="object-cover transition-transform group-hover:scale-105"
-            />
-            <div className="absolute left-0 top-3">
-              <span className="bg-orange-600 px-3 py-1 text-xs font-medium text-white">
-                {getCategoryName(category)}
-              </span>
-            </div>
+    <article className="group overflow-hidden border border-orange-100 bg-white transition-all hover:border-orange-200 hover:shadow-lg sm:flex">
+      {coverImage && (
+        <div className="relative aspect-[1200/675] overflow-hidden sm:aspect-auto sm:w-72 sm:shrink-0 sm:self-stretch">
+          <Image
+            src={coverImage}
+            alt={title}
+            fill
+            sizes="(min-width: 640px) 288px, 100vw"
+            className="object-cover transition-transform group-hover:scale-105"
+          />
+          <div className="absolute left-0 top-3">
+            <span className="bg-orange-600 px-3 py-1 text-xs font-medium text-white">
+              {getCategoryName(category)}
+            </span>
           </div>
-        )}
-        <div className="p-4 sm:flex sm:flex-col sm:justify-center">
+        </div>
+      )}
+      <div className="flex flex-1 flex-col justify-center">
+        <Link href={`/posts/${slug}`} className="p-4 pb-2">
           <time className="text-xs text-orange-300">{formattedDate}</time>
           <h2 className="mt-2 text-lg font-semibold leading-snug text-amber-800 group-hover:text-orange-600">
             {title}
@@ -75,15 +75,13 @@ export default function PostCard({
           <p className="mt-2 line-clamp-2 text-sm text-amber-600">
             {getExcerpt(body)}
           </p>
-        </div>
-      </Link>
-      {tags.length > 0 && (
-        <div className="flex flex-wrap gap-1 px-4 pb-4 sm:pl-[calc(18rem+1rem)]">
+        </Link>
+        <div className="flex min-h-6 flex-wrap gap-1 px-4 pb-4">
           {tags.map((tag) => (
             <TagBadge key={tag} tag={tag} />
           ))}
         </div>
-      )}
+      </div>
     </article>
   );
 }
