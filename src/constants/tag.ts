@@ -13,6 +13,7 @@ export const tags: Tag[] = [
   { slug: "pokemon", name: "ポケモン" },
   { slug: "seiken-densetsu", name: "聖剣伝説" },
   { slug: "kiseki", name: "軌跡" },
+  { slug: "gunvolt", name: "ガンヴォルト" },
 ];
 
 /**

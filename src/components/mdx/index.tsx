@@ -2,6 +2,7 @@ import { RakutenCard, RakutenCardImage } from "./RakutenCard";
 import { Tweet } from "./Tweet";
 import { LinkCard } from "./LinkCard";
 import { Callout } from "./Callout";
+import ImageGallery from "./ImageGallery";
 
 export const mdxComponents = {
   RakutenCard,
@@ -9,4 +10,5 @@ export const mdxComponents = {
   Tweet,
   LinkCard,
   Callout,
+  ImageGallery,
 };
