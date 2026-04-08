@@ -37,8 +37,7 @@ next-env.d.ts
 .velite/
 
 *.webp
-/scripts/data/
-/scripts/dataEdited/
-/scripts/
+/scripts/convertImage/data/
+/scripts/convertImage/dataEdited/
 
 content/drafts/
