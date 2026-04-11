@@ -5,3 +5,5 @@ export const siteDescription =
 export const siteUrl = "https://now-imarin.com";
 export const siteAuthor = "imarin";
 export const siteEmail = "contact@now-imarin.com";
+export const siteHeaderImage =
+  "https://assets.now-imarin.com/meta/header-pc.webp";

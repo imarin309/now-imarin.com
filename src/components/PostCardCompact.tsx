@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getCategoryName } from "@/constants/category";
+import { siteHeaderImage } from "@/constants/meta";
 
 interface PostCardCompactProps {
   title: string;
@@ -24,13 +25,15 @@ export default function PostCardCompact({
     day: "numeric",
   });
 
+  const image = coverImage ?? siteHeaderImage;
+
   return (
     <article className="group overflow-hidden border border-orange-100 bg-white transition-all hover:border-orange-200 hover:shadow-lg">
       <Link href={`/posts/${slug}`}>
-        {coverImage && (
+        {image && (
           <div className="relative aspect-[1200/675] overflow-hidden">
             <Image
-              src={coverImage}
+              src={image}
               alt={title}
               fill
               sizes="(min-width: 640px) 33vw, 100vw"
