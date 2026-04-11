@@ -3,7 +3,12 @@ import { posts } from "#site/content";
 import TagBadge from "@/components/TagBadge";
 import { MDXContent } from "@/components/mdx/MDXContent";
 import { getCategoryName } from "@/constants/category";
-import { siteName, siteUrl, siteAuthor } from "@/constants/meta";
+import {
+  siteName,
+  siteUrl,
+  siteAuthor,
+  siteHeaderImage,
+} from "@/constants/meta";
 import type { Metadata } from "next";
 
 interface PostPageProps {
@@ -35,17 +40,13 @@ export async function generateMetadata({
       type: "article",
       title: post.title,
       description: post.description,
-      ...(post.coverImage && {
-        images: [{ url: post.coverImage }],
-      }),
+      images: [{ url: post.coverImage ?? siteHeaderImage }],
     },
     twitter: {
       card: "summary_large_image",
       title: post.title,
       description: post.description,
-      ...(post.coverImage && {
-        images: [post.coverImage],
-      }),
+      images: [post.coverImage ?? siteHeaderImage],
     },
   };
 }
@@ -77,7 +78,7 @@ export default async function PostPage({ params }: PostPageProps) {
     description: post.description,
     datePublished: new Date(post.date).toISOString(),
     url: `${siteUrl}/posts/${post.slug}`,
-    ...(post.coverImage && { image: post.coverImage }),
+    image: post.coverImage ?? siteHeaderImage,
     author: {
       "@type": "Person",
       name: siteAuthor,

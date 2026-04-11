@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getCategoryName } from "@/constants/category";
 import TagBadge from "@/components/TagBadge";
+import { siteHeaderImage } from "@/constants/meta";
 
 function getExcerpt(body: string, length = 100): string {
   let text = body
@@ -48,12 +49,14 @@ export default function PostCard({
     day: "numeric",
   });
 
+  const image = coverImage ?? siteHeaderImage;
+
   return (
     <article className="group overflow-hidden border border-orange-100 bg-white transition-all hover:border-orange-200 hover:shadow-lg sm:flex">
-      {coverImage && (
+      {image && (
         <div className="relative aspect-[1200/675] overflow-hidden sm:aspect-auto sm:w-72 sm:shrink-0 sm:self-stretch">
           <Image
-            src={coverImage}
+            src={image}
             alt={title}
             fill
             sizes="(min-width: 640px) 288px, 100vw"
