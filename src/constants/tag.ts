@@ -14,6 +14,7 @@ export const tags: Tag[] = [
   { slug: "seiken-densetsu", name: "聖剣伝説" },
   { slug: "kiseki", name: "軌跡" },
   { slug: "gunvolt", name: "ガンヴォルト" },
+  { slug: "youzitsu", name: "よう実" },
 ];
 
 /**

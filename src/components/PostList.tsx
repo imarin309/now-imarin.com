@@ -13,7 +13,7 @@ interface Post {
 
 interface PostListProps {
   posts: Post[];
-  title: string;
+  title?: string;
   currentPage: number;
   totalPages: number;
   basePath?: string;
@@ -28,10 +28,15 @@ export default function PostList({
 }: PostListProps) {
   return (
     <div>
+      {title && (
+        <div className="mb-6">
+          <h2 className="inline text-lg font-semibold text-amber-900 bg-gradient-to-r from-primary to-secondary bg-[length:100%_2px] bg-no-repeat bg-bottom pb-1">
+            {title}
+          </h2>
+        </div>
+      )}
+
       <section>
-        <h2 className="mb-6 border-b border-orange-100 pb-2 text-lg font-semibold text-amber-800">
-          {title}
-        </h2>
         {posts.length > 0 ? (
           <div className="grid gap-6">
             {posts.map((post) => (
