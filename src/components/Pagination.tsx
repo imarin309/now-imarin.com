@@ -6,6 +6,20 @@ interface PaginationProps {
   basePath?: string;
 }
 
+const WINDOW_SIZE = 6;
+
+function getPageWindow(current: number, total: number): number[] {
+  if (total <= WINDOW_SIZE) {
+    return Array.from({ length: total }, (_, i) => i + 1);
+  }
+  let start = Math.max(1, current - Math.floor(WINDOW_SIZE / 2));
+  const end = Math.min(total, start + WINDOW_SIZE - 1);
+  if (end - start + 1 < WINDOW_SIZE) {
+    start = Math.max(1, end - WINDOW_SIZE + 1);
+  }
+  return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+}
+
 export default function Pagination({
   currentPage,
   totalPages,
@@ -20,42 +34,96 @@ export default function Pagination({
     return page === 1 ? "/" : `/page/${page}`;
   };
 
-  const prevHref = pageHref(currentPage - 1);
-  const nextHref = pageHref(currentPage + 1);
+  const pages = getPageWindow(currentPage, totalPages);
+  const showStartEllipsis = pages[0] > 1;
+  const showEndEllipsis = pages[pages.length - 1] < totalPages;
+
+  const pageButtonBase =
+    "flex h-9 w-9 items-center justify-center rounded-full text-sm transition-all duration-200";
+  const pageButtonActive =
+    "bg-gradient-to-br from-[#d4500a] to-[#f4924b] text-white shadow-md shadow-orange-200 font-medium scale-110";
+  const pageButtonInactive =
+    "text-amber-700 hover:bg-accent hover:text-primary hover:scale-105";
+  const arrowButtonActive =
+    "flex h-9 w-9 items-center justify-center rounded-full text-amber-600 transition-all duration-200 hover:bg-accent hover:text-primary hover:scale-105";
+  const arrowButtonDisabled =
+    "flex h-9 w-9 items-center justify-center rounded-full text-orange-200 cursor-not-allowed";
 
   return (
     <nav
       aria-label="ページネーション"
-      className="mt-10 flex items-center justify-center gap-4"
+      className="mt-10 flex items-center justify-center gap-1"
     >
       {currentPage > 1 ? (
         <Link
-          href={prevHref}
-          className="border border-orange-200 px-4 py-2 text-sm text-amber-700 transition-colors hover:bg-orange-50"
+          href={pageHref(currentPage - 1)}
+          className={arrowButtonActive}
+          aria-label="前のページ"
         >
-          前へ
+          ‹
         </Link>
       ) : (
-        <span className="border border-orange-100 px-4 py-2 text-sm text-orange-200">
-          前へ
-        </span>
+        <span className={arrowButtonDisabled}>‹</span>
       )}
 
-      <span className="text-sm text-amber-600">
-        {currentPage} / {totalPages}
-      </span>
+      {showStartEllipsis && (
+        <>
+          <Link
+            href={pageHref(1)}
+            className={`${pageButtonBase} ${pageButtonInactive}`}
+          >
+            1
+          </Link>
+          <span className="flex h-9 w-5 items-end justify-center pb-1 text-xs tracking-widest text-amber-300">
+            ···
+          </span>
+        </>
+      )}
+
+      {pages.map((page) =>
+        page === currentPage ? (
+          <span
+            key={page}
+            aria-current="page"
+            className={`${pageButtonBase} ${pageButtonActive}`}
+          >
+            {page}
+          </span>
+        ) : (
+          <Link
+            key={page}
+            href={pageHref(page)}
+            className={`${pageButtonBase} ${pageButtonInactive}`}
+          >
+            {page}
+          </Link>
+        ),
+      )}
+
+      {showEndEllipsis && (
+        <>
+          <span className="flex h-9 w-5 items-end justify-center pb-1 text-xs tracking-widest text-amber-300">
+            ···
+          </span>
+          <Link
+            href={pageHref(totalPages)}
+            className={`${pageButtonBase} ${pageButtonInactive}`}
+          >
+            {totalPages}
+          </Link>
+        </>
+      )}
 
       {currentPage < totalPages ? (
         <Link
-          href={nextHref}
-          className="border border-orange-200 px-4 py-2 text-sm text-amber-700 transition-colors hover:bg-orange-50"
+          href={pageHref(currentPage + 1)}
+          className={arrowButtonActive}
+          aria-label="次のページ"
         >
-          次へ
+          ›
         </Link>
       ) : (
-        <span className="border border-orange-100 px-4 py-2 text-sm text-orange-200">
-          次へ
-        </span>
+        <span className={arrowButtonDisabled}>›</span>
       )}
     </nav>
   );

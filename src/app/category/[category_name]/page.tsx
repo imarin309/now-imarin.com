@@ -52,7 +52,7 @@ export default async function CategoryPage({
   return (
     <PostList
       posts={pagePosts}
-      title={`${category.name}の記事一覧`}
+      title={category.name}
       currentPage={1}
       totalPages={totalPages}
       basePath={`/category/${category_name}`}

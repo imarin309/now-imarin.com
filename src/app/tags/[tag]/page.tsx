@@ -49,7 +49,7 @@ export default async function TagPage({
   return (
     <PostList
       posts={pagePosts}
-      title={`#${tagName} の記事一覧`}
+      title={`#${tagName}`}
       currentPage={1}
       totalPages={totalPages}
       basePath={`/tags/${tag}`}

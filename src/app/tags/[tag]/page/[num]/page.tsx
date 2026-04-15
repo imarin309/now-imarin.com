@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 import PostList from "@/components/PostList";
 import { posts } from "#site/content";
 import { POSTS_PER_PAGE } from "@/constants/config";
-import { getAllTags, getTagName } from "@/constants/tag";
+import { getAllTags } from "@/constants/tag";
 
 export function generateStaticParams() {
   const allParams: { tag: string; num: string }[] = [];
@@ -70,14 +70,13 @@ export default async function TagPaginatedPage({
     redirect(`/tags/${tag}`);
   }
 
-  const tagName = getTagName(tag);
   const start = (pageNum - 1) * POSTS_PER_PAGE;
   const pagePosts = filteredPosts.slice(start, start + POSTS_PER_PAGE);
 
   return (
     <PostList
       posts={pagePosts}
-      title={`#${tagName} の記事一覧 - ページ ${pageNum}`}
+      title={`ページ ${pageNum}`}
       currentPage={pageNum}
       totalPages={totalPages}
       basePath={`/tags/${tag}`}
