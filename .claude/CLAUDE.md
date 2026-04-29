@@ -6,19 +6,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 # 開発サーバー起動（Veliteウォッチ + Next.js dev）
-npm run dev
+pnpm dev
 
 # 本番ビルド
-npm run build
+pnpm build
 
 # リント検査（Prettier + ESLint + markdownlint）
-npm run lint
+pnpm lint
 
 # 自動修正
-npm run format
+pnpm format
 ```
 
-`npm run dev` は `velite --watch` と `next dev` を並列起動する。Velite が先にビルドされていないと `posts` が空になるため、初回は少し待ってからブラウザでアクセスすること。
+`pnpm dev` は `velite --watch` と `next dev` を並列起動する。Velite が先にビルドされていないと `posts` が空になるため、初回は少し待ってからブラウザでアクセスすること。
 
 ## アーキテクチャ
 
@@ -92,7 +92,7 @@ coverImage: https://r2.now-imarin.com/path/to/image.jpg
 ## Lint 設定
 
 - `content/**` は Prettier・ESLint の対象外（`.prettierignore`、`eslint.config.mjs` の `globalIgnores`）
-- `content/**/*.mdx` は markdownlint の対象（`npm run lint` に含まれる）
+- `content/**/*.mdx` は markdownlint の対象（`pnpm lint` に含まれる）
 - 無効化している markdownlint ルール: `MD013`（行長）, `MD033`（HTML）, `MD036`（見出し）, `MD001`（見出しレベル）, `MD034`（ベアURL）
 
 ## WordPress 移行スクリプト

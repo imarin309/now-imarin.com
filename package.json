@@ -19,6 +19,13 @@
     "remark-directive": "^4.0.0",
     "velite": "^0.3.1"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp",
+      "unrs-resolver"
+    ]
+  },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
@@ -28,6 +35,7 @@
     "eslint-config-next": "16.1.6",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-mdx": "^3.6.2",
+    "mdast-util-directive": "^3.1.0",
     "prettier": "^3.8.1",
     "sharp": "^0.34.5",
     "tailwindcss": "^4",
