@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import PostCardCompact from "./PostCardCompact";
 
@@ -53,11 +53,11 @@ export default function RecommendedPostsClient({
   selectPosts = randomSelect,
 }: RecommendedPostsClientProps) {
   const pathname = usePathname();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
+  const mounted = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false,
+  );
 
   const selected = useMemo(
     () => (mounted ? selectPosts(posts, count) : []),
