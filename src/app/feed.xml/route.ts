@@ -1,9 +1,10 @@
-import { posts } from "#site/content";
+import { getAllPosts } from "@/lib/posts";
 import { siteUrl, siteName, siteDescription } from "@/constants/meta";
 
 export const dynamic = "force-static";
 
 export async function GET() {
+  const posts = getAllPosts();
   const sortedPosts = posts
     .filter((post) => !post.noindex)
     .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())

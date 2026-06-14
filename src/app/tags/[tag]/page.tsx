@@ -4,7 +4,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import PostList from "@/components/PostList";
-import { posts } from "#site/content";
+import { getAllPosts } from "@/lib/posts";
 import { POSTS_PER_PAGE } from "@/constants/config";
 import { getAllTags, getTagName } from "@/constants/tag";
 
@@ -34,9 +34,9 @@ export default async function TagPage({
 }) {
   const { tag } = await params;
 
+  const posts = getAllPosts();
   const filteredPosts = posts
-    .filter((post) => post.tags.includes(tag))
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    .filter((post) => post.tags?.includes(tag));
 
   if (filteredPosts.length === 0) {
     notFound();

@@ -4,7 +4,7 @@
 import { redirect, notFound } from "next/navigation";
 import type { Metadata } from "next";
 import PostList from "@/components/PostList";
-import { posts } from "#site/content";
+import { getAllPosts } from "@/lib/posts";
 import { getAllCategories, getCategoryBySlug } from "@/constants/category";
 import { POSTS_PER_PAGE } from "@/constants/config";
 
@@ -17,6 +17,7 @@ export async function generateMetadata({
   const category = getCategoryBySlug(category_name);
   if (!category) return {};
 
+  const posts = getAllPosts();
   const filteredCount = posts.filter(
     (post) => post.category === category_name,
   ).length;
@@ -34,6 +35,7 @@ export async function generateMetadata({
 
 export function generateStaticParams() {
   const allParams: { category_name: string; num: string }[] = [];
+  const posts = getAllPosts();
 
   for (const category of getAllCategories()) {
     const count = posts.filter(
@@ -65,9 +67,9 @@ export default async function CategoryPaginatedPage({
     notFound();
   }
 
+  const posts = getAllPosts();
   const filteredPosts = posts
-    .filter((post) => post.category === category_name)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    .filter((post) => post.category === category_name);
 
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
   const pageNum = Number(num);

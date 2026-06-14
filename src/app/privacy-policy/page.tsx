@@ -1,11 +1,7 @@
 import { notFound } from "next/navigation";
-import { pages } from "#site/content";
-import { MDXContent } from "@/components/mdx/MDXContent";
+import dynamic from "next/dynamic";
+import { getPageBySlug } from "@/lib/posts";
 import type { Metadata } from "next";
-
-function getPageBySlug(slug: string) {
-  return pages.find((page) => page.slug === slug);
-}
 
 export async function generateMetadata(): Promise<Metadata> {
   const page = getPageBySlug("privacy-policy");
@@ -34,6 +30,8 @@ export default function PrivacyPage() {
     notFound();
   }
 
+  const MDXContent = dynamic(() => import("../../../content/pages/privacy-policy.mdx"));
+
   return (
     <article className="mx-auto max-w-3xl">
       <header className="mb-8 border-b border-orange-100 pb-6">
@@ -46,7 +44,7 @@ export default function PrivacyPage() {
       </header>
 
       <div className="prose prose-amber max-w-none prose-headings:font-semibold prose-a:text-orange-600 prose-a:underline-offset-2 hover:prose-a:text-orange-800">
-        <MDXContent code={page.content} />
+        <MDXContent />
       </div>
     </article>
   );

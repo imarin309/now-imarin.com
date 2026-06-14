@@ -3,7 +3,6 @@
 .DS_Store
 .env*.local
 .pnp.js
-.velite/
 .vercel
 .yarn/install-state.gz
 *.pem

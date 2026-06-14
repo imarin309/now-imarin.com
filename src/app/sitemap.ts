@@ -1,15 +1,17 @@
 import { MetadataRoute } from "next";
-import { posts, pages } from "#site/content";
+import { getAllPosts, getAllPages } from "@/lib/posts";
 import { siteUrl } from "@/constants/meta";
 
 export const dynamic = "force-static";
 
 function getPageDate(slug: string) {
+  const pages = getAllPages();
   const page = pages.find((p) => p.slug === slug);
   return page ? new Date(page.date) : undefined;
 }
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const posts = getAllPosts();
   const postEntries: MetadataRoute.Sitemap = posts
     .filter((post) => !post.noindex)
     .map((post) => ({

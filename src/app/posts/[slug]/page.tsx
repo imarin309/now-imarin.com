@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
-import { posts } from "#site/content";
+import dynamic from "next/dynamic";
+import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import TagBadge from "@/components/TagBadge";
-import { MDXContent } from "@/components/mdx/MDXContent";
 import { getCategoryName } from "@/constants/category";
 import {
   siteName,
@@ -15,15 +15,12 @@ interface PostPageProps {
   params: Promise<{ slug: string }>;
 }
 
-function getPostBySlug(slug: string) {
-  return posts.find((post) => post.slug === slug);
-}
-
 export async function generateMetadata({
   params,
 }: PostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const decodedSlug = decodeURIComponent(slug);
+  const post = getPostBySlug(decodedSlug);
 
   if (!post) {
     return {};
@@ -34,7 +31,7 @@ export async function generateMetadata({
     description: post.description,
     robots: post.noindex ? { index: false, follow: false } : undefined,
     alternates: {
-      canonical: `/posts/${slug}`,
+      canonical: `/posts/${decodedSlug}`,
     },
     openGraph: {
       type: "article",
@@ -52,6 +49,7 @@ export async function generateMetadata({
 }
 
 export async function generateStaticParams() {
+  const posts = getAllPosts();
   return posts.map((post) => ({
     slug: post.slug,
   }));
@@ -59,7 +57,8 @@ export async function generateStaticParams() {
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const decodedSlug = decodeURIComponent(slug);
+  const post = getPostBySlug(decodedSlug);
 
   if (!post) {
     notFound();
@@ -91,6 +90,10 @@ export default async function PostPage({ params }: PostPageProps) {
     },
   };
 
+  // MDXコンポーネントを動的にインポート
+  // 注意: next.config.ts で pageExtensions に mdx が含まれている必要がある
+  const MDXContent = dynamic(() => import(`../../../../content/posts/${decodedSlug}.mdx`));
+
   return (
     <>
       <script
@@ -107,14 +110,14 @@ export default async function PostPage({ params }: PostPageProps) {
             <span className="bg-orange-600 px-3 py-1 text-xs text-white">
               {getCategoryName(post.category)}
             </span>
-            {post.tags.map((tag) => (
+            {post.tags?.map((tag) => (
               <TagBadge key={tag} tag={tag} />
             ))}
           </div>
         </header>
 
         <div className="prose prose-amber max-w-none prose-headings:font-semibold prose-a:text-orange-600 prose-a:underline-offset-2 hover:prose-a:text-orange-800">
-          <MDXContent code={post.content} />
+          <MDXContent />
         </div>
       </article>
     </>

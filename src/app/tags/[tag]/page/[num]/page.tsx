@@ -4,15 +4,16 @@
 import { redirect, notFound } from "next/navigation";
 import type { Metadata } from "next";
 import PostList from "@/components/PostList";
-import { posts } from "#site/content";
+import { getAllPosts } from "@/lib/posts";
 import { POSTS_PER_PAGE } from "@/constants/config";
 import { getAllTags } from "@/constants/tag";
 
 export function generateStaticParams() {
   const allParams: { tag: string; num: string }[] = [];
+  const posts = getAllPosts();
 
   for (const { slug } of getAllTags()) {
-    const count = posts.filter((post) => post.tags.includes(slug)).length;
+    const count = posts.filter((post) => post.tags?.includes(slug)).length;
     const totalPages = Math.ceil(count / POSTS_PER_PAGE);
 
     if (totalPages <= 1) {
@@ -35,7 +36,8 @@ export async function generateMetadata({
   const { tag, num } = await params;
   const pageNum = Number(num);
 
-  const filteredCount = posts.filter((post) => post.tags.includes(tag)).length;
+  const posts = getAllPosts();
+  const filteredCount = posts.filter((post) => post.tags?.includes(tag)).length;
   const totalPages = Math.ceil(filteredCount / POSTS_PER_PAGE);
 
   if (!Number.isInteger(pageNum) || pageNum <= 1 || pageNum > totalPages) {
@@ -55,9 +57,9 @@ export default async function TagPaginatedPage({
 }) {
   const { tag, num } = await params;
 
+  const posts = getAllPosts();
   const filteredPosts = posts
-    .filter((post) => post.tags.includes(tag))
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    .filter((post) => post.tags?.includes(tag));
 
   if (filteredPosts.length === 0) {
     notFound();

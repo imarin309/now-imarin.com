@@ -3,7 +3,7 @@
  */
 import type { Metadata } from "next";
 import PostList from "@/components/PostList";
-import { posts } from "#site/content";
+import { getAllPosts } from "@/lib/posts";
 import { POSTS_PER_PAGE } from "@/constants/config";
 
 export const metadata: Metadata = {
@@ -13,9 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const sortedPosts = posts.sort(
-    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-  );
+  const sortedPosts = getAllPosts();
 
   const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE);
   const pagePosts = sortedPosts.slice(0, POSTS_PER_PAGE);
