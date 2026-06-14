@@ -68,8 +68,7 @@ export default async function CategoryPaginatedPage({
   }
 
   const posts = getAllPosts();
-  const filteredPosts = posts
-    .filter((post) => post.category === category_name);
+  const filteredPosts = posts.filter((post) => post.category === category_name);
 
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
   const pageNum = Number(num);

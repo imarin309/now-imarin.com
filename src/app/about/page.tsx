@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import dynamic from "next/dynamic";
 import { getPageBySlug } from "@/lib/posts";
 import type { Metadata } from "next";
 
@@ -23,14 +22,17 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function AboutPage() {
+export default async function AboutPage() {
   const page = getPageBySlug("about");
 
   if (!page) {
     notFound();
   }
 
-  const MDXContent = dynamic(() => import("../../../content/pages/about.mdx"));
+  const { default: MDXContent } =
+    (await import("../../../content/pages/about.mdx")) as {
+      default: React.ComponentType;
+    };
 
   return (
     <article className="mx-auto max-w-3xl">

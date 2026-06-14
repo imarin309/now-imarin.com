@@ -43,8 +43,7 @@ export default async function CategoryPage({
   }
 
   const posts = getAllPosts();
-  const filteredPosts = posts
-    .filter((post) => post.category === category_name);
+  const filteredPosts = posts.filter((post) => post.category === category_name);
 
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
   const pagePosts = filteredPosts.slice(0, POSTS_PER_PAGE);

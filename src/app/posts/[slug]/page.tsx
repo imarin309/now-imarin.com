@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import dynamic from "next/dynamic";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import TagBadge from "@/components/TagBadge";
 import { getCategoryName } from "@/constants/category";
@@ -91,8 +90,11 @@ export default async function PostPage({ params }: PostPageProps) {
   };
 
   // MDXコンポーネントを動的にインポート
-  // 注意: next.config.ts で pageExtensions に mdx が含まれている必要がある
-  const MDXContent = dynamic(() => import(`../../../../content/posts/${decodedSlug}.mdx`));
+  // Server Component内であれば import() を直接使ってコンポーネントを取得可能
+
+  const { default: MDXContent } = (await import(
+    `../../../../content/posts/${decodedSlug}.mdx`
+  )) as { default: React.ComponentType };
 
   return (
     <>

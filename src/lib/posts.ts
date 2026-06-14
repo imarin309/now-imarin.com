@@ -96,7 +96,7 @@ function getMDXFiles(dir: string): string[] {
   const subdirs = entries.filter((e) => e.isDirectory());
   for (const subdir of subdirs) {
     const subFiles = getMDXFiles(path.join(dir, subdir.name)).map((f) =>
-      path.join(subdir.name, f)
+      path.join(subdir.name, f),
     );
     files.push(...subFiles);
   }
@@ -105,9 +105,7 @@ function getMDXFiles(dir: string): string[] {
 
 export function getAllPosts(): Post[] {
   const files = getMDXFiles(postsDir);
-  return files
-    .map(parsePost)
-    .sort((a, b) => (a.date < b.date ? 1 : -1));
+  return files.map(parsePost).sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
 export function getPostBySlug(slug: string): Post | undefined {

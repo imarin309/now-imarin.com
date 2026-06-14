@@ -58,8 +58,7 @@ export default async function TagPaginatedPage({
   const { tag, num } = await params;
 
   const posts = getAllPosts();
-  const filteredPosts = posts
-    .filter((post) => post.tags?.includes(tag));
+  const filteredPosts = posts.filter((post) => post.tags?.includes(tag));
 
   if (filteredPosts.length === 0) {
     notFound();
