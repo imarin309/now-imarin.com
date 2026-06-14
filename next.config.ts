@@ -1,10 +1,14 @@
 import type { NextConfig } from "next";
+import createMDX from "@next/mdx";
+import remarkBreaks from "remark-breaks";
+import remarkDirective from "remark-directive";
+import remarkFrontmatter from "remark-frontmatter";
+import remarkGfm from "remark-gfm";
+import { remarkLinkCard } from "./src/lib/remark-link-card";
+import { remarkTextStyle } from "./src/lib/remark-text-style";
 
 const nextConfig: NextConfig = {
   output: "export",
-  turbopack: {
-    root: __dirname,
-  },
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -34,6 +38,20 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
 };
 
-export default nextConfig;
+const withMDX = createMDX({
+  options: {
+    remarkPlugins: [
+      remarkFrontmatter,
+      remarkGfm,
+      remarkBreaks,
+      remarkDirective,
+      remarkTextStyle,
+      remarkLinkCard,
+    ],
+  },
+});
+
+export default withMDX(nextConfig);

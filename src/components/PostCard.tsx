@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getCategoryName } from "@/constants/category";
 import TagBadge from "@/components/TagBadge";
 import { siteHeaderImage } from "@/constants/meta";
+import type { Post } from "@/lib/posts";
 
 function getExcerpt(body: string, length = 100): string {
   let text = body
@@ -25,13 +26,13 @@ function getExcerpt(body: string, length = 100): string {
 }
 
 interface PostCardProps {
-  title: string;
-  body: string;
-  date: string;
-  slug: string;
-  coverImage?: string;
-  category: string;
-  tags?: string[];
+  title: Post["title"];
+  body: Post["body"];
+  date: Post["date"];
+  slug: Post["slug"];
+  coverImage?: Post["coverImage"];
+  category: Post["category"];
+  tags?: Post["tags"];
 }
 
 export default function PostCard({

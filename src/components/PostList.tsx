@@ -1,15 +1,6 @@
 import PostCard from "@/components/PostCard";
 import Pagination from "@/components/Pagination";
-
-interface Post {
-  title: string;
-  body: string;
-  date: string;
-  slug: string;
-  coverImage?: string;
-  category: string;
-  tags?: string[];
-}
+import type { Post } from "@/lib/posts";
 
 interface PostListProps {
   posts: Post[];

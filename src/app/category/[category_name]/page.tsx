@@ -4,7 +4,7 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import PostList from "@/components/PostList";
-import { posts } from "#site/content";
+import { getAllPosts } from "@/lib/posts";
 import { getAllCategories, getCategoryBySlug } from "@/constants/category";
 import { POSTS_PER_PAGE } from "@/constants/config";
 
@@ -42,9 +42,8 @@ export default async function CategoryPage({
     notFound();
   }
 
-  const filteredPosts = posts
-    .filter((post) => post.category === category_name)
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  const posts = getAllPosts();
+  const filteredPosts = posts.filter((post) => post.category === category_name);
 
   const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
   const pagePosts = filteredPosts.slice(0, POSTS_PER_PAGE);

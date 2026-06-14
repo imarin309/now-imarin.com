@@ -1,9 +1,10 @@
-import { posts } from "#site/content";
+import { getAllPosts } from "@/lib/posts";
 import RecommendedPostsClient, {
   type PostSummary,
 } from "./RecommendedPostsClient";
 
 export default function RecommendedPosts() {
+  const posts = getAllPosts();
   const candidates: PostSummary[] = posts
     .filter((post) => !post.noindex)
     .map(({ title, slug, date, coverImage, category }) => ({
