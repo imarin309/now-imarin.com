@@ -41,3 +41,5 @@ next-env.d.ts
 /scripts/convertImage/dataEdited/
 
 content/drafts/
+
+.claude/plan.md

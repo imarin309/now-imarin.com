@@ -11,7 +11,7 @@
     "format": "prettier --write . && eslint --fix && markdownlint-cli2 --fix \"content/**/*.mdx\""
   },
   "dependencies": {
-    "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/typography": "^0.5.20",
     "markdownlint-cli2": "^0.20.0",
     "next": "16.1.6",
     "react": "19.2.3",
@@ -28,20 +28,20 @@
     ]
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
+    "@tailwindcss/postcss": "^4.3.1",
     "@types/mdast": "^4.0.4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
+    "@types/node": "^20.19.43",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
     "eslint-config-next": "16.1.6",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-mdx": "^3.6.2",
+    "eslint-plugin-mdx": "^3.8.1",
     "mdast-util-directive": "^3.1.0",
-    "prettier": "^3.8.1",
+    "prettier": "^3.8.4",
     "sharp": "^0.34.5",
-    "tailwindcss": "^4",
-    "typescript": "^5",
+    "tailwindcss": "^4.3.1",
+    "typescript": "^5.9.3",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0"
   }
