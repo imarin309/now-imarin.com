@@ -1,45 +1,34 @@
-# dependencies
-/node_modules
-/.pnp
-.pnp.js
-.yarn/install-state.gz
 
-# testing
-/coverage
-
-# next.js
-/.next/
-/out/
-
-# production
-/build
-
-# misc
+.claude/plan.md
 .DS_Store
+.env*.local
+.pnp.js
+.velite/
+.vercel
+.yarn/install-state.gz
 *.pem
-
+*.tsbuildinfo
+*.webp
+/.next/
+/.pnp
+/build
+/coverage
+/node_modules
+/out/
+/scripts/convertImage/data/
+/scripts/convertImage/dataEdited/
 # debug
+# dependencies
+# local env files
+# misc
+# next.js
+# production
+# testing
+# typescript
+# velite
+# vercel
+content/drafts/
+next-env.d.ts
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# local env files
-.env*.local
-
-# vercel
-.vercel
-
-# typescript
-*.tsbuildinfo
-next-env.d.ts
-
-# velite
-.velite/
-
-*.webp
-/scripts/convertImage/data/
-/scripts/convertImage/dataEdited/
-
-content/drafts/
-
-.claude/plan.md
