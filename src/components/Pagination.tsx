@@ -1,9 +1,12 @@
 import Link from "next/link";
+import { defaultLocale, type Locale } from "@/i18n/config";
+import { getMessages } from "@/i18n/messages";
 
 interface PaginationProps {
   currentPage: number;
   totalPages: number;
   basePath?: string;
+  locale?: Locale;
 }
 
 const WINDOW_SIZE = 6;
@@ -24,8 +27,10 @@ export default function Pagination({
   currentPage,
   totalPages,
   basePath,
+  locale = defaultLocale,
 }: PaginationProps) {
   if (totalPages <= 1) return null;
+  const t = getMessages(locale);
 
   const pageHref = (page: number) => {
     if (basePath) {
@@ -51,14 +56,14 @@ export default function Pagination({
 
   return (
     <nav
-      aria-label="ページネーション"
+      aria-label={t.pagination.label}
       className="mt-10 flex items-center justify-center gap-1"
     >
       {currentPage > 1 ? (
         <Link
           href={pageHref(currentPage - 1)}
           className={arrowButtonActive}
-          aria-label="前のページ"
+          aria-label={t.pagination.previous}
         >
           ‹
         </Link>
@@ -118,7 +123,7 @@ export default function Pagination({
         <Link
           href={pageHref(currentPage + 1)}
           className={arrowButtonActive}
-          aria-label="次のページ"
+          aria-label={t.pagination.next}
         >
           ›
         </Link>

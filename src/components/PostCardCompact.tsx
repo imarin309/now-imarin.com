@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getCategoryName } from "@/constants/category";
 import { siteHeaderImage } from "@/constants/meta";
+import { defaultLocale, localeMeta, type Locale } from "@/i18n/config";
 
 interface PostCardCompactProps {
   title: string;
@@ -9,6 +10,8 @@ interface PostCardCompactProps {
   slug: string;
   coverImage?: string;
   category: string;
+  locale?: Locale;
+  pathPrefix?: string;
 }
 
 // PostCardCompact はdescriptionを持たないPostCard
@@ -18,18 +21,23 @@ export default function PostCardCompact({
   slug,
   coverImage,
   category,
+  locale = defaultLocale,
+  pathPrefix = "",
 }: PostCardCompactProps) {
-  const formattedDate = new Date(date).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = new Date(date).toLocaleDateString(
+    localeMeta[locale].dateLocale,
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    },
+  );
 
   const image = coverImage ?? siteHeaderImage;
 
   return (
     <article className="group overflow-hidden border border-orange-100 bg-white transition-all hover:border-orange-200 hover:shadow-lg">
-      <Link href={`/posts/${slug}`}>
+      <Link href={`${pathPrefix}/posts/${slug}`}>
         {image && (
           <div className="relative aspect-[1200/675] overflow-hidden">
             <Image
@@ -41,7 +49,7 @@ export default function PostCardCompact({
             />
             <div className="absolute left-0 top-3">
               <span className="bg-orange-600 px-3 py-1 text-xs font-medium text-white">
-                {getCategoryName(category)}
+                {getCategoryName(category, locale)}
               </span>
             </div>
           </div>

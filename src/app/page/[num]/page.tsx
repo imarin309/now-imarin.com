@@ -6,6 +6,8 @@ import type { Metadata } from "next";
 import PostList from "@/components/PostList";
 import { getAllPosts } from "@/lib/posts";
 import { POSTS_PER_PAGE } from "@/constants/config";
+import { defaultLocale } from "@/i18n/config";
+import { getMessages } from "@/i18n/messages";
 
 const sortedPosts = getAllPosts();
 const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE);
@@ -50,12 +52,13 @@ export default async function PaginatedPage({
 
   const start = (pageNum - 1) * POSTS_PER_PAGE;
   const pagePosts = sortedPosts.slice(start, start + POSTS_PER_PAGE);
+  const t = getMessages(defaultLocale);
 
   return (
     <>
       <PostList
         posts={pagePosts}
-        title={`ページ ${pageNum}`}
+        title={t.posts.pageTitle(pageNum)}
         currentPage={pageNum}
         totalPages={totalPages}
       />

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getCategoryName } from "@/constants/category";
 import TagBadge from "@/components/TagBadge";
 import { siteHeaderImage } from "@/constants/meta";
+import { defaultLocale, localeMeta, type Locale } from "@/i18n/config";
 import type { Post } from "@/lib/posts";
 
 function getExcerpt(body: string, length = 100): string {
@@ -33,6 +34,8 @@ interface PostCardProps {
   coverImage?: Post["coverImage"];
   category: Post["category"];
   tags?: Post["tags"];
+  locale?: Locale;
+  pathPrefix?: string;
 }
 
 export default function PostCard({
@@ -43,12 +46,17 @@ export default function PostCard({
   coverImage,
   category,
   tags = [],
+  locale = defaultLocale,
+  pathPrefix = "",
 }: PostCardProps) {
-  const formattedDate = new Date(date).toLocaleDateString("ja-JP", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
+  const formattedDate = new Date(date).toLocaleDateString(
+    localeMeta[locale].dateLocale,
+    {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    },
+  );
 
   const image = coverImage ?? siteHeaderImage;
 
@@ -65,13 +73,13 @@ export default function PostCard({
           />
           <div className="absolute left-0 top-3">
             <span className="bg-orange-600 px-3 py-1 text-xs font-medium text-white">
-              {getCategoryName(category)}
+              {getCategoryName(category, locale)}
             </span>
           </div>
         </div>
       )}
       <div className="flex flex-1 flex-col justify-center">
-        <Link href={`/posts/${slug}`} className="p-4 pb-2">
+        <Link href={`${pathPrefix}/posts/${slug}`} className="p-4 pb-2">
           <time className="text-xs text-orange-300">{formattedDate}</time>
           <h2 className="mt-2 text-lg font-semibold leading-snug text-amber-800 group-hover:text-orange-600">
             {title}
@@ -82,7 +90,12 @@ export default function PostCard({
         </Link>
         <div className="flex min-h-6 flex-wrap gap-1 px-4 pb-4">
           {tags.map((tag) => (
-            <TagBadge key={tag} tag={tag} />
+            <TagBadge
+              key={tag}
+              tag={tag}
+              locale={locale}
+              pathPrefix={pathPrefix}
+            />
           ))}
         </div>
       </div>

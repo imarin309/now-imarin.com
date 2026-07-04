@@ -5,7 +5,11 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import PostList from "@/components/PostList";
 import { getAllPosts } from "@/lib/posts";
-import { getAllCategories, getCategoryBySlug } from "@/constants/category";
+import {
+  getAllCategories,
+  getCategoryBySlug,
+  getCategoryName,
+} from "@/constants/category";
 import { POSTS_PER_PAGE } from "@/constants/config";
 
 export function generateStaticParams() {
@@ -23,7 +27,7 @@ export async function generateMetadata({
   const category = getCategoryBySlug(category_name);
   if (!category) return {};
   return {
-    title: `${category.name}の記事一覧`,
+    title: `${getCategoryName(category_name)}の記事一覧`,
     alternates: {
       canonical: `/category/${category_name}`,
     },
@@ -51,7 +55,7 @@ export default async function CategoryPage({
   return (
     <PostList
       posts={pagePosts}
-      title={category.name}
+      title={getCategoryName(category_name)}
       currentPage={1}
       totalPages={totalPages}
       basePath={`/category/${category_name}`}

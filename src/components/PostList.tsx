@@ -1,5 +1,7 @@
 import PostCard from "@/components/PostCard";
 import Pagination from "@/components/Pagination";
+import { defaultLocale, type Locale } from "@/i18n/config";
+import { getMessages } from "@/i18n/messages";
 import type { Post } from "@/lib/posts";
 
 interface PostListProps {
@@ -8,6 +10,8 @@ interface PostListProps {
   currentPage: number;
   totalPages: number;
   basePath?: string;
+  locale?: Locale;
+  pathPrefix?: string;
 }
 
 export default function PostList({
@@ -16,7 +20,11 @@ export default function PostList({
   currentPage,
   totalPages,
   basePath,
+  locale = defaultLocale,
+  pathPrefix = "",
 }: PostListProps) {
+  const t = getMessages(locale);
+
   return (
     <div>
       {title && (
@@ -40,11 +48,13 @@ export default function PostList({
                 coverImage={post.coverImage}
                 category={post.category}
                 tags={post.tags}
+                locale={locale}
+                pathPrefix={pathPrefix}
               />
             ))}
           </div>
         ) : (
-          <p className="text-orange-300">記事がありません。</p>
+          <p className="text-orange-300">{t.posts.empty}</p>
         )}
       </section>
 
@@ -52,6 +62,7 @@ export default function PostList({
         currentPage={currentPage}
         totalPages={totalPages}
         basePath={basePath}
+        locale={locale}
       />
     </div>
   );
