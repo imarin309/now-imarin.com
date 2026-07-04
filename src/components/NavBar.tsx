@@ -2,18 +2,41 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { getAllCategories } from "@/constants/category";
-import { siteName } from "@/constants/meta";
+import {
+  defaultLocale,
+  localeLabels,
+  locales,
+  type Locale,
+} from "@/i18n/config";
+import { getMessages } from "@/i18n/messages";
+import {
+  getCurrentLocale,
+  getPathForLocale,
+  getPathPrefix,
+} from "@/i18n/routing";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const categories = getAllCategories();
 
-export default function NavBar() {
+export default function NavBar({
+  locale = defaultLocale,
+  pathPrefix,
+}: {
+  locale?: Locale;
+  pathPrefix?: string;
+}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+  const pathname = usePathname();
+  const currentLocale = getCurrentLocale(pathname, locale);
+  const currentPathPrefix =
+    pathPrefix ?? getPathPrefix(pathname, currentLocale);
+  const t = getMessages(currentLocale);
 
   const closeMenu = useCallback(() => {
     setIsOpen(false);
@@ -82,7 +105,7 @@ export default function NavBar() {
         <div className="flex items-center justify-between">
           {/* アイコン + サイトタイトル */}
           <Link
-            href="/"
+            href={currentPathPrefix || "/"}
             onClick={() => setIsMobileOpen(false)}
             className="flex items-center gap-2"
           >
@@ -93,16 +116,18 @@ export default function NavBar() {
               height={28}
               className="rounded-sm"
             />
-            <span className="text-sm font-bold text-amber-700">{siteName}</span>
+            <span className="text-sm font-bold text-amber-700">
+              {t.siteName}
+            </span>
           </Link>
 
           {/* デスクトップ nav (sm以上) */}
           <div className="hidden items-center gap-6 text-sm font-medium sm:flex">
             <Link
-              href="/"
+              href={currentPathPrefix || "/"}
               className="text-amber-700 transition-colors hover:text-orange-600"
             >
-              Home
+              {t.nav.home}
             </Link>
             <div
               ref={menuRef}
@@ -122,7 +147,7 @@ export default function NavBar() {
                 onKeyDown={handleButtonKeyDown}
                 className="text-amber-700 transition-colors hover:text-orange-600"
               >
-                Category
+                {t.nav.category}
               </button>
               <div
                 className={`absolute left-0 top-full z-50 pt-2 transition-all ${
@@ -142,11 +167,11 @@ export default function NavBar() {
                         }}
                         role="menuitem"
                         tabIndex={-1}
-                        href={`/category/${category.slug}`}
+                        href={`${currentPathPrefix}/category/${category.slug}`}
                         onClick={() => setIsOpen(false)}
                         className="block px-4 py-2 text-amber-700 transition-colors hover:bg-orange-50 hover:text-orange-600"
                       >
-                        {category.name}
+                        {category.names[currentLocale]}
                       </Link>
                     </li>
                   ))}
@@ -154,23 +179,39 @@ export default function NavBar() {
               </div>
             </div>
             <Link
-              href="/about"
+              href={`${currentPathPrefix}/about`}
               className="text-amber-700 transition-colors hover:text-orange-600"
             >
-              about
+              {t.nav.about}
             </Link>
             <Link
-              href="/contact"
+              href={`${currentPathPrefix}/contact`}
               className="text-amber-700 transition-colors hover:text-orange-600"
             >
-              contact
+              {t.nav.contact}
             </Link>
+            <div className="flex items-center gap-2 border-l border-orange-200 pl-4 text-xs">
+              {locales.map((item) => (
+                <Link
+                  key={item}
+                  href={getPathForLocale(pathname, item)}
+                  className={
+                    item === currentLocale
+                      ? "font-semibold text-orange-600"
+                      : "text-amber-500 transition-colors hover:text-orange-600"
+                  }
+                  hrefLang={item}
+                >
+                  {localeLabels[item]}
+                </Link>
+              ))}
+            </div>
           </div>
 
           {/* ハンバーガーボタン (sm未満) */}
           <button
             className="text-amber-700 sm:hidden"
-            aria-label={isMobileOpen ? "メニューを閉じる" : "メニューを開く"}
+            aria-label={isMobileOpen ? t.nav.closeMenu : t.nav.openMenu}
             aria-expanded={isMobileOpen}
             onClick={() => setIsMobileOpen((prev) => !prev)}
           >
@@ -218,42 +259,59 @@ export default function NavBar() {
         <div className="border-t border-orange-100 bg-orange-50/90 px-4 py-3 text-sm font-medium sm:hidden">
           <div className="flex flex-col gap-4">
             <Link
-              href="/"
+              href={currentPathPrefix || "/"}
               onClick={() => setIsMobileOpen(false)}
               className="text-amber-700 transition-colors hover:text-orange-600"
             >
-              Home
+              {t.nav.home}
             </Link>
             <div>
-              <p className="mb-2 text-amber-700">Category</p>
+              <p className="mb-2 text-amber-700">{t.nav.category}</p>
               <ul className="ml-4 flex flex-col gap-2">
                 {categories.map((category) => (
                   <li key={category.slug}>
                     <Link
-                      href={`/category/${category.slug}`}
+                      href={`${currentPathPrefix}/category/${category.slug}`}
                       onClick={() => setIsMobileOpen(false)}
                       className="text-amber-700 transition-colors hover:text-orange-600"
                     >
-                      {category.name}
+                      {category.names[currentLocale]}
                     </Link>
                   </li>
                 ))}
               </ul>
             </div>
             <Link
-              href="/about"
+              href={`${currentPathPrefix}/about`}
               onClick={() => setIsMobileOpen(false)}
               className="text-amber-700 transition-colors hover:text-orange-600"
             >
-              about
+              {t.nav.about}
             </Link>
             <Link
-              href="/contact"
+              href={`${currentPathPrefix}/contact`}
               onClick={() => setIsMobileOpen(false)}
               className="text-amber-700 transition-colors hover:text-orange-600"
             >
-              contact
+              {t.nav.contact}
             </Link>
+            <div className="flex gap-3 border-t border-orange-100 pt-3 text-xs">
+              {locales.map((item) => (
+                <Link
+                  key={item}
+                  href={getPathForLocale(pathname, item)}
+                  hrefLang={item}
+                  onClick={() => setIsMobileOpen(false)}
+                  className={
+                    item === currentLocale
+                      ? "font-semibold text-orange-600"
+                      : "text-amber-500 transition-colors hover:text-orange-600"
+                  }
+                >
+                  {localeLabels[item]}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
       )}

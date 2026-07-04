@@ -1,12 +1,14 @@
+import { defaultLocale, type Locale } from "@/i18n/config";
+
 export type Category = {
   slug: string;
-  name: string;
+  names: Record<Locale, string>;
 };
 
 export const categories: Category[] = [
-  { slug: "anime", name: "アニメ" },
-  { slug: "game", name: "ゲーム" },
-  { slug: "other", name: "その他" },
+  { slug: "anime", names: { ja: "アニメ", en: "Anime" } },
+  { slug: "game", names: { ja: "ゲーム", en: "Game" } },
+  { slug: "other", names: { ja: "その他", en: "Other" } },
 ];
 
 /**
@@ -26,7 +28,10 @@ export function getCategoryBySlug(slug: string): Category | undefined {
 /**
  * slugから表示名を取得（見つからない場合はslugをそのまま返す）
  */
-export function getCategoryName(slug: string): string {
+export function getCategoryName(
+  slug: string,
+  locale: Locale = defaultLocale,
+): string {
   const category = getCategoryBySlug(slug);
-  return category?.name ?? slug;
+  return category?.names[locale] ?? slug;
 }

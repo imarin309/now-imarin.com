@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
+import { defaultLocale, type Locale } from "@/i18n/config";
 
 export type Post = {
   slug: string;
@@ -26,6 +27,14 @@ export type Page = {
 const postsDir = path.join(process.cwd(), "content/posts");
 const pagesDir = path.join(process.cwd(), "content/pages");
 
+function getLocalizedContentDir(baseDir: string, locale: Locale): string {
+  if (locale === defaultLocale) return baseDir;
+
+  const localizedDir = path.join(baseDir, locale);
+  if (fs.existsSync(localizedDir)) return localizedDir;
+  return localizedDir;
+}
+
 function normalizeDate(value: unknown): string {
   if (value instanceof Date) return value.toISOString().slice(0, 10);
   return String(value ?? "");
@@ -40,8 +49,11 @@ function getExcerpt(content: string): string {
     .slice(0, 120);
 }
 
-function parsePost(filename: string): Post {
-  const filePath = path.join(postsDir, filename);
+function parsePost(filename: string, locale: Locale): Post {
+  const filePath = path.join(
+    getLocalizedContentDir(postsDir, locale),
+    filename,
+  );
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(fileContent);
 
@@ -65,8 +77,11 @@ function parsePost(filename: string): Post {
   };
 }
 
-function parsePage(filename: string): Page {
-  const filePath = path.join(pagesDir, filename);
+function parsePage(filename: string, locale: Locale): Page {
+  const filePath = path.join(
+    getLocalizedContentDir(pagesDir, locale),
+    filename,
+  );
   const fileContent = fs.readFileSync(filePath, "utf-8");
   const { data, content } = matter(fileContent);
 
@@ -103,22 +118,32 @@ function getMDXFiles(dir: string): string[] {
   return files;
 }
 
-export function getAllPosts(): Post[] {
-  const files = getMDXFiles(postsDir);
-  return files.map(parsePost).sort((a, b) => (a.date < b.date ? 1 : -1));
+export function getAllPosts(locale: Locale = defaultLocale): Post[] {
+  const dir = getLocalizedContentDir(postsDir, locale);
+  const files = getMDXFiles(dir);
+  return files
+    .map((file) => parsePost(file, locale))
+    .sort((a, b) => (a.date < b.date ? 1 : -1));
 }
 
-export function getPostBySlug(slug: string): Post | undefined {
-  const posts = getAllPosts();
+export function getPostBySlug(
+  slug: string,
+  locale: Locale = defaultLocale,
+): Post | undefined {
+  const posts = getAllPosts(locale);
   return posts.find((p) => p.slug === slug);
 }
 
-export function getAllPages(): Page[] {
-  const files = getMDXFiles(pagesDir);
-  return files.map(parsePage);
+export function getAllPages(locale: Locale = defaultLocale): Page[] {
+  const dir = getLocalizedContentDir(pagesDir, locale);
+  const files = getMDXFiles(dir);
+  return files.map((file) => parsePage(file, locale));
 }
 
-export function getPageBySlug(slug: string): Page | undefined {
-  const pages = getAllPages();
+export function getPageBySlug(
+  slug: string,
+  locale: Locale = defaultLocale,
+): Page | undefined {
+  const pages = getAllPages(locale);
   return pages.find((p) => p.slug === slug);
 }

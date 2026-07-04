@@ -5,6 +5,8 @@ import type { Metadata } from "next";
 import PostList from "@/components/PostList";
 import { getAllPosts } from "@/lib/posts";
 import { POSTS_PER_PAGE } from "@/constants/config";
+import { getMessages } from "@/i18n/messages";
+import { defaultLocale } from "@/i18n/config";
 
 export const metadata: Metadata = {
   alternates: {
@@ -17,11 +19,12 @@ export default function Home() {
 
   const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE);
   const pagePosts = sortedPosts.slice(0, POSTS_PER_PAGE);
+  const t = getMessages(defaultLocale);
 
   return (
     <PostList
       posts={pagePosts}
-      title="最新の記事"
+      title={t.posts.latest}
       currentPage={1}
       totalPages={totalPages}
     />

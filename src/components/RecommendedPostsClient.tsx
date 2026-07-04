@@ -3,6 +3,9 @@
 import { useMemo, useSyncExternalStore } from "react";
 import { usePathname } from "next/navigation";
 import PostCardCompact from "./PostCardCompact";
+import { defaultLocale, type Locale } from "@/i18n/config";
+import { getMessages } from "@/i18n/messages";
+import { getCurrentLocale, getPathPrefix } from "@/i18n/routing";
 
 export type PostSummary = {
   title: string;
@@ -26,6 +29,8 @@ interface RecommendedPostsClientProps {
   posts: PostSummary[];
   count?: number;
   selectPosts?: PostSelector;
+  locale?: Locale;
+  pathPrefix?: string;
 }
 
 function Skeleton({ count }: { count: number }) {
@@ -51,8 +56,15 @@ export default function RecommendedPostsClient({
   posts,
   count = 3,
   selectPosts = randomSelect,
+  locale = defaultLocale,
+  pathPrefix,
 }: RecommendedPostsClientProps) {
   const pathname = usePathname();
+  const currentLocale = getCurrentLocale(pathname, locale);
+  const currentPathPrefix =
+    pathPrefix ?? getPathPrefix(pathname, currentLocale);
+  const currentPosts = currentLocale === locale ? posts : [];
+  const t = getMessages(currentLocale);
   const mounted = useSyncExternalStore(
     () => () => {},
     () => true,
@@ -60,16 +72,16 @@ export default function RecommendedPostsClient({
   );
 
   const selected = useMemo(
-    () => (mounted ? selectPosts(posts, count) : []),
+    () => (mounted ? selectPosts(currentPosts, count) : []),
     // eslint-disable-next-line react-hooks/exhaustive-deps -- pathname triggers re-shuffle on navigation
-    [mounted, posts, count, selectPosts, pathname],
+    [mounted, currentPosts, count, selectPosts, pathname],
   );
 
   return (
     <section className="py-10">
       <div className="mx-auto max-w-4xl px-4">
         <h2 className="mb-6 text-lg font-semibold text-amber-800">
-          こちらもおすすめ
+          {t.posts.recommended}
         </h2>
         {!mounted ? (
           <Skeleton count={count} />
@@ -83,6 +95,8 @@ export default function RecommendedPostsClient({
                 slug={post.slug}
                 coverImage={post.coverImage}
                 category={post.category}
+                locale={currentLocale}
+                pathPrefix={currentPathPrefix}
               />
             ))}
           </div>

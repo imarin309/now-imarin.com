@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import TagBadge from "@/components/TagBadge";
 import { getCategoryName } from "@/constants/category";
+import { serializeJsonLd } from "@/lib/json-ld";
 import {
   siteName,
   siteUrl,
@@ -100,7 +101,7 @@ export default async function PostPage({ params }: PostPageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <article className="mx-auto max-w-3xl">
         <header className="mb-8 border-b border-orange-100 pb-6">

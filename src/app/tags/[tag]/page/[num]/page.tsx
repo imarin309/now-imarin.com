@@ -7,6 +7,8 @@ import PostList from "@/components/PostList";
 import { getAllPosts } from "@/lib/posts";
 import { POSTS_PER_PAGE } from "@/constants/config";
 import { getAllTags } from "@/constants/tag";
+import { defaultLocale } from "@/i18n/config";
+import { getMessages } from "@/i18n/messages";
 
 export function generateStaticParams() {
   const allParams: { tag: string; num: string }[] = [];
@@ -73,11 +75,12 @@ export default async function TagPaginatedPage({
 
   const start = (pageNum - 1) * POSTS_PER_PAGE;
   const pagePosts = filteredPosts.slice(start, start + POSTS_PER_PAGE);
+  const t = getMessages(defaultLocale);
 
   return (
     <PostList
       posts={pagePosts}
-      title={`ページ ${pageNum}`}
+      title={t.posts.pageTitle(pageNum)}
       currentPage={pageNum}
       totalPages={totalPages}
       basePath={`/tags/${tag}`}

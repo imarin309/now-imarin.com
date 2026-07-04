@@ -7,6 +7,8 @@ import PostList from "@/components/PostList";
 import { getAllPosts } from "@/lib/posts";
 import { getAllCategories, getCategoryBySlug } from "@/constants/category";
 import { POSTS_PER_PAGE } from "@/constants/config";
+import { defaultLocale } from "@/i18n/config";
+import { getMessages } from "@/i18n/messages";
 
 export async function generateMetadata({
   params,
@@ -79,11 +81,12 @@ export default async function CategoryPaginatedPage({
 
   const start = (pageNum - 1) * POSTS_PER_PAGE;
   const pagePosts = filteredPosts.slice(start, start + POSTS_PER_PAGE);
+  const t = getMessages(defaultLocale);
 
   return (
     <PostList
       posts={pagePosts}
-      title={`ページ ${pageNum}`}
+      title={t.posts.pageTitle(pageNum)}
       currentPage={pageNum}
       totalPages={totalPages}
       basePath={`/category/${category_name}`}
