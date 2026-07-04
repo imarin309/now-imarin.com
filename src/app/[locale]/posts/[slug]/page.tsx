@@ -2,14 +2,10 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import TagBadge from "@/components/TagBadge";
 import { getCategoryName } from "@/constants/category";
-import {
-  siteAuthor,
-  siteHeaderImage,
-  siteName,
-  siteUrl,
-} from "@/constants/meta";
+import { siteAuthor, siteHeaderImage, siteUrl } from "@/constants/meta";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
 import { serializeJsonLd } from "@/lib/json-ld";
+import { getMessages } from "@/i18n/messages";
 import {
   defaultLocale,
   getLocalePathPrefix,
@@ -94,6 +90,7 @@ export default async function LocalePostPage({ params }: LocalePostPageProps) {
     },
   );
   const pathPrefix = getLocalePathPrefix(locale);
+  const t = getMessages(locale);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -110,7 +107,7 @@ export default async function LocalePostPage({ params }: LocalePostPageProps) {
     },
     publisher: {
       "@type": "Organization",
-      name: siteName,
+      name: t.siteName,
       url: siteUrl,
     },
   };

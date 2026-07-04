@@ -7,13 +7,8 @@ import Footer from "@/components/Footer";
 import RecommendedPosts from "@/components/RecommendedPosts";
 import GoogleAnalytics from "@/components/google/GoogleAnalytics";
 import GoogleAdSense from "@/components/google/GoogleAdSense";
-import { serializeJsonLd } from "@/lib/json-ld";
-import {
-  siteName,
-  siteDescription,
-  siteUrl,
-  siteAuthor,
-} from "@/constants/meta";
+import WebSiteJsonLd from "@/components/WebSiteJsonLd";
+import { siteName, siteDescription, siteUrl } from "@/constants/meta";
 
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -65,19 +60,6 @@ export const metadata: Metadata = {
   },
 };
 
-const websiteJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  name: siteName,
-  url: siteUrl,
-  description: siteDescription,
-  author: {
-    "@type": "Person",
-    name: siteAuthor,
-    url: siteUrl,
-  },
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -95,10 +77,7 @@ export default function RootLayout({
               <GoogleAdSense />
             </>
           )}
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteJsonLd) }}
-        />
+        <WebSiteJsonLd />
         <NavBar />
         <Header />
         <main className="mx-auto w-full max-w-4xl flex-1 px-4 py-8">

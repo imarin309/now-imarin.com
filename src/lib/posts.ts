@@ -28,9 +28,11 @@ const postsDir = path.join(process.cwd(), "content/posts");
 const pagesDir = path.join(process.cwd(), "content/pages");
 
 function getLocalizedContentDir(baseDir: string, locale: Locale): string {
+  if (locale === defaultLocale) return baseDir;
+
   const localizedDir = path.join(baseDir, locale);
   if (fs.existsSync(localizedDir)) return localizedDir;
-  return locale === defaultLocale ? baseDir : localizedDir;
+  return localizedDir;
 }
 
 function normalizeDate(value: unknown): string {
