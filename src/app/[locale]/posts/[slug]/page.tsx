@@ -15,7 +15,7 @@ import {
   getLocalePathPrefix,
   isLocale,
   localeMeta,
-  locales,
+  localeRouteLocales,
   type Locale,
 } from "@/i18n/config";
 
@@ -58,12 +58,15 @@ export async function generateMetadata({
 }
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) =>
-    getAllPosts(locale).map((post) => ({
+  return localeRouteLocales.flatMap((locale) => {
+    const posts = getAllPosts(locale);
+    if (posts.length === 0) return [{ locale, slug: "__placeholder__" }];
+
+    return posts.map((post) => ({
       locale,
       slug: post.slug,
-    })),
-  );
+    }));
+  });
 }
 
 async function importPost(locale: Locale, slug: string) {

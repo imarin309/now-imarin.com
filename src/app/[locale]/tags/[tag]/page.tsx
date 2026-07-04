@@ -7,7 +7,7 @@ import { getAllTags, getTagName } from "@/constants/tag";
 import {
   getLocalePathPrefix,
   isLocale,
-  locales,
+  localeRouteLocales,
   type Locale,
 } from "@/i18n/config";
 
@@ -16,12 +16,9 @@ type LocaleTagPageProps = {
 };
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) => {
-    const posts = getAllPosts(locale);
-    return getAllTags()
-      .filter(({ slug }) => posts.some((post) => post.tags?.includes(slug)))
-      .map(({ slug }) => ({ locale, tag: slug }));
-  });
+  return localeRouteLocales.flatMap((locale) =>
+    getAllTags().map(({ slug }) => ({ locale, tag: slug })),
+  );
 }
 
 export async function generateMetadata({

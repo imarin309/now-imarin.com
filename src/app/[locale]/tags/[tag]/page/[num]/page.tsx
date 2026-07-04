@@ -7,7 +7,7 @@ import { getAllTags } from "@/constants/tag";
 import {
   getLocalePathPrefix,
   isLocale,
-  locales,
+  localeRouteLocales,
   type Locale,
 } from "@/i18n/config";
 import { getMessages } from "@/i18n/messages";
@@ -17,12 +17,12 @@ type LocaleTagPaginatedPageProps = {
 };
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) => {
+  return localeRouteLocales.flatMap((locale) => {
     const posts = getAllPosts(locale);
     return getAllTags().flatMap(({ slug }) => {
       const count = posts.filter((post) => post.tags?.includes(slug)).length;
       const totalPages = Math.ceil(count / POSTS_PER_PAGE);
-      if (totalPages <= 1) return [];
+      if (totalPages <= 1) return [{ locale, tag: slug, num: "2" }];
       return Array.from({ length: totalPages - 1 }, (_, i) => ({
         locale,
         tag: slug,

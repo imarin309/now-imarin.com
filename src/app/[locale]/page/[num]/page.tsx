@@ -6,7 +6,7 @@ import { getAllPosts } from "@/lib/posts";
 import {
   getLocalePathPrefix,
   isLocale,
-  locales,
+  localeRouteLocales,
   type Locale,
 } from "@/i18n/config";
 import { getMessages } from "@/i18n/messages";
@@ -36,9 +36,9 @@ export async function generateMetadata({
 }
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) => {
+  return localeRouteLocales.flatMap((locale) => {
     const totalPages = Math.ceil(getAllPosts(locale).length / POSTS_PER_PAGE);
-    if (totalPages <= 1) return [];
+    if (totalPages <= 1) return [{ locale, num: "2" }];
     return Array.from({ length: totalPages - 1 }, (_, i) => ({
       locale,
       num: String(i + 2),

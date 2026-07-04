@@ -1,7 +1,12 @@
 import { notFound } from "next/navigation";
 import { getAllPosts } from "@/lib/posts";
 import { siteUrl } from "@/constants/meta";
-import { isLocale, localeMeta, locales, type Locale } from "@/i18n/config";
+import {
+  isLocale,
+  localeMeta,
+  localeRouteLocales,
+  type Locale,
+} from "@/i18n/config";
 import { getMessages } from "@/i18n/messages";
 
 export const dynamic = "force-static";
@@ -11,7 +16,7 @@ type LocaleFeedProps = {
 };
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+  return localeRouteLocales.map((locale) => ({ locale }));
 }
 
 export async function GET(_request: Request, { params }: LocaleFeedProps) {

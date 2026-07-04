@@ -4,6 +4,8 @@ export type Locale = (typeof locales)[number];
 
 export const defaultLocale: Locale = "ja";
 
+export const localeRouteLocales = ["en"] as const satisfies readonly Locale[];
+
 export const localeLabels: Record<Locale, string> = {
   ja: "日本語",
   en: "English",
@@ -42,5 +44,6 @@ export function getLocalePathPrefix(locale: Locale): string {
 
 export function getLocalizedPath(locale: Locale, path = "/"): string {
   const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  if (locale === defaultLocale) return normalizedPath;
   return `${getLocalePathPrefix(locale)}${normalizedPath === "/" ? "" : normalizedPath}`;
 }

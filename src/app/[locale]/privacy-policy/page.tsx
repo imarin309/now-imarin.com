@@ -1,14 +1,19 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getPageBySlug } from "@/lib/posts";
-import { defaultLocale, isLocale, locales, type Locale } from "@/i18n/config";
+import {
+  defaultLocale,
+  isLocale,
+  localeRouteLocales,
+  type Locale,
+} from "@/i18n/config";
 
 type LocaleStaticPageProps = {
   params: Promise<{ locale: string }>;
 };
 
 export function generateStaticParams() {
-  return locales
+  return localeRouteLocales
     .filter((locale) => getPageBySlug("privacy-policy", locale))
     .map((locale) => ({ locale }));
 }
@@ -29,7 +34,7 @@ export async function generateMetadata({
     alternates: {
       canonical: `/${locale}/privacy-policy`,
       languages: {
-        ja: "/ja/privacy-policy",
+        ja: "/privacy-policy",
         en: "/en/privacy-policy",
       },
     },

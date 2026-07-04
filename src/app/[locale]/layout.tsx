@@ -1,6 +1,11 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import { isLocale, localeMeta, locales, type Locale } from "@/i18n/config";
+import {
+  isLocale,
+  localeMeta,
+  localeRouteLocales,
+  type Locale,
+} from "@/i18n/config";
 import { getMessages } from "@/i18n/messages";
 import { siteUrl } from "@/constants/meta";
 
@@ -10,7 +15,7 @@ type LocaleLayoutProps = {
 };
 
 export function generateStaticParams() {
-  return locales.map((locale) => ({ locale }));
+  return localeRouteLocales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
@@ -31,7 +36,7 @@ export async function generateMetadata({
     alternates: {
       canonical: `/${locale}`,
       languages: {
-        ja: `${siteUrl}/ja`,
+        ja: siteUrl,
         en: `${siteUrl}/en`,
       },
     },

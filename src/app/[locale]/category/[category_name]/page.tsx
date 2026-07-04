@@ -7,7 +7,7 @@ import { getAllPosts } from "@/lib/posts";
 import {
   getLocalePathPrefix,
   isLocale,
-  locales,
+  localeRouteLocales,
   type Locale,
 } from "@/i18n/config";
 
@@ -16,17 +16,12 @@ type LocaleCategoryPageProps = {
 };
 
 export function generateStaticParams() {
-  return locales.flatMap((locale) => {
-    const posts = getAllPosts(locale);
-    return getAllCategories()
-      .filter((category) =>
-        posts.some((post) => post.category === category.slug),
-      )
-      .map((category) => ({
-        locale,
-        category_name: category.slug,
-      }));
-  });
+  return localeRouteLocales.flatMap((locale) =>
+    getAllCategories().map((category) => ({
+      locale,
+      category_name: category.slug,
+    })),
+  );
 }
 
 export async function generateMetadata({
