@@ -3,10 +3,18 @@ import type { Metadata } from "next";
 import TagBadge from "@/components/TagBadge";
 import { getCategoryName } from "@/constants/category";
 import { siteAuthor, siteHeaderImage, siteUrl } from "@/constants/meta";
-import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import {
+  getAllPosts,
+  getAvailablePostLocales,
+  getPostBySlug,
+} from "@/lib/posts";
 import { serializeJsonLd } from "@/lib/json-ld";
 import { getMessages } from "@/i18n/messages";
-import { getLocalePathPrefix, localeMeta } from "@/i18n/config";
+import {
+  getLocalePathPrefix,
+  getLocalizedPath,
+  localeMeta,
+} from "@/i18n/config";
 
 const LOCALE = "en" as const;
 
@@ -22,12 +30,24 @@ export async function generateMetadata({
   const post = getPostBySlug(decodedSlug, LOCALE);
   if (!post) return {};
 
+  const availableLocales = getAvailablePostLocales(decodedSlug);
+
   return {
     title: post.title,
     description: post.description,
     robots: post.noindex ? { index: false, follow: false } : undefined,
     alternates: {
       canonical: `/en/posts/${decodedSlug}`,
+      ...(availableLocales.length > 1
+        ? {
+            languages: Object.fromEntries(
+              availableLocales.map((locale) => [
+                locale,
+                getLocalizedPath(locale, `/posts/${decodedSlug}`),
+              ]),
+            ),
+          }
+        : {}),
     },
     openGraph: {
       type: "article",

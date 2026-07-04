@@ -1,5 +1,9 @@
 import { notFound } from "next/navigation";
-import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import {
+  getAllPosts,
+  getAvailablePostLocales,
+  getPostBySlug,
+} from "@/lib/posts";
 import TagBadge from "@/components/TagBadge";
 import { getCategoryName } from "@/constants/category";
 import { serializeJsonLd } from "@/lib/json-ld";
@@ -9,6 +13,7 @@ import {
   siteAuthor,
   siteHeaderImage,
 } from "@/constants/meta";
+import { getLocalizedPath } from "@/i18n/config";
 import type { Metadata } from "next";
 
 interface PostPageProps {
@@ -26,12 +31,24 @@ export async function generateMetadata({
     return {};
   }
 
+  const availableLocales = getAvailablePostLocales(decodedSlug);
+
   return {
     title: post.title,
     description: post.description,
     robots: post.noindex ? { index: false, follow: false } : undefined,
     alternates: {
       canonical: `/posts/${decodedSlug}`,
+      ...(availableLocales.length > 1
+        ? {
+            languages: Object.fromEntries(
+              availableLocales.map((locale) => [
+                locale,
+                getLocalizedPath(locale, `/posts/${decodedSlug}`),
+              ]),
+            ),
+          }
+        : {}),
     },
     openGraph: {
       type: "article",
