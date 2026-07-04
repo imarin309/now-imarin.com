@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Sans_JP } from "next/font/google";
-import Link from "next/link";
 import "./globals.css";
+import NotFoundContent from "@/components/NotFoundContent";
 
 const notoSansJP = Noto_Sans_JP({
   variable: "--font-noto-sans-jp",
@@ -14,27 +14,16 @@ export const metadata: Metadata = {
   robots: { index: false },
 };
 
+// (ja)/(en) いずれのルートグループにもマッチしない未知のパス用の
+// 最終フォールバック。どちらのレイアウトにも包まれないため、
+// 自前で <html>/<body> を持つ必要がある。
 export default function NotFound() {
   return (
     <html lang="ja">
       <body
         className={`${notoSansJP.variable} flex min-h-screen flex-col font-sans antialiased`}
       >
-        <div className="flex flex-1 flex-col items-center justify-center py-20 text-center">
-          <p className="text-8xl font-bold text-stone-300">404</p>
-          <h1 className="mt-4 text-2xl font-medium text-foreground">
-            ページが見つかりませんでした
-          </h1>
-          <p className="mt-2 text-secondary">
-            お探しのページは存在しないか、移動した可能性があります。
-          </p>
-          <Link
-            href="/"
-            className="mt-8 rounded-md bg-stone-700 px-6 py-2 text-sm text-stone-100 transition-colors hover:bg-stone-600"
-          >
-            トップページへ戻る
-          </Link>
-        </div>
+        <NotFoundContent locale="ja" pathPrefix="" />
       </body>
     </html>
   );
