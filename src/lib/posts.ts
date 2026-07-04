@@ -114,8 +114,8 @@ function getMDXFiles(dir: string, excludeDirs: string[] = []): string[] {
     (e) => e.isDirectory() && !excludeDirs.includes(e.name),
   );
   for (const subdir of subdirs) {
-    const subFiles = getMDXFiles(path.join(dir, subdir.name)).map((f) =>
-      path.join(subdir.name, f),
+    const subFiles = getMDXFiles(path.join(dir, subdir.name), excludeDirs).map(
+      (f) => path.join(subdir.name, f),
     );
     files.push(...subFiles);
   }
@@ -142,10 +142,15 @@ export function getPostBySlug(
 }
 
 // hreflang用: 指定slugの記事が実際に存在する（noindexでない）ロケール一覧を返す
+// getAllPosts(locale) で全記事をパースし直すと記事ページ数×ロケール数だけ
+// 無駄なI/Oが発生するため、対象slugのファイルのみ直接チェックする
 export function getAvailablePostLocales(slug: string): Locale[] {
   return locales.filter((locale) => {
-    const post = getPostBySlug(slug, locale);
-    return !!post && !post.noindex;
+    const dir = getLocalizedContentDir(postsDir, locale);
+    const filePath = path.join(dir, `${slug}.mdx`);
+    if (!fs.existsSync(filePath)) return false;
+    const post = parsePost(`${slug}.mdx`, locale);
+    return !post.noindex;
   });
 }
 
