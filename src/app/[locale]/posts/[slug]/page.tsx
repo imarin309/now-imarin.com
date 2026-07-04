@@ -9,6 +9,7 @@ import {
   siteUrl,
 } from "@/constants/meta";
 import { getAllPosts, getPostBySlug } from "@/lib/posts";
+import { serializeJsonLd } from "@/lib/json-ld";
 import {
   defaultLocale,
   getLocalePathPrefix,
@@ -119,7 +120,7 @@ export default async function LocalePostPage({ params }: LocalePostPageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(jsonLd) }}
       />
       <article className="mx-auto max-w-3xl">
         <header className="mb-8 border-b border-orange-100 pb-6">

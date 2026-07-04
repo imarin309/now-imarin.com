@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import RecommendedPosts from "@/components/RecommendedPosts";
 import GoogleAnalytics from "@/components/google/GoogleAnalytics";
 import GoogleAdSense from "@/components/google/GoogleAdSense";
+import { serializeJsonLd } from "@/lib/json-ld";
 import {
   siteName,
   siteDescription,
@@ -96,7 +97,7 @@ export default function RootLayout({
           )}
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteJsonLd) }}
         />
         <NavBar />
         <Header />

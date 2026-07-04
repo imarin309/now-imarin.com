@@ -6,42 +6,19 @@ import { usePathname } from "next/navigation";
 import { getAllCategories } from "@/constants/category";
 import {
   defaultLocale,
-  getLocalePathPrefix,
   localeLabels,
   locales,
-  isLocale,
   type Locale,
 } from "@/i18n/config";
 import { getMessages } from "@/i18n/messages";
+import {
+  getCurrentLocale,
+  getPathForLocale,
+  getPathPrefix,
+} from "@/i18n/routing";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const categories = getAllCategories();
-
-function getCurrentLocale(pathname: string, fallback: Locale): Locale {
-  const segment = pathname.split("/")[1];
-  return isLocale(segment) ? segment : fallback;
-}
-
-function getPathPrefix(pathname: string, locale: Locale): string {
-  const segment = pathname.split("/")[1];
-  return isLocale(segment) ? getLocalePathPrefix(locale) : "";
-}
-
-function getPathForLocale(pathname: string, locale: Locale): string {
-  const segments = pathname.split("/");
-  const firstSegment = segments[1];
-
-  if (isLocale(firstSegment)) {
-    segments[1] = locale;
-    return segments.join("/") || getLocalePathPrefix(locale);
-  }
-
-  if (pathname === "/") {
-    return getLocalePathPrefix(locale);
-  }
-
-  return `${getLocalePathPrefix(locale)}${pathname}`;
-}
 
 export default function NavBar({
   locale = defaultLocale,

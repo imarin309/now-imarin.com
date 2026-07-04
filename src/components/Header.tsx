@@ -2,23 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  defaultLocale,
-  getLocalePathPrefix,
-  isLocale,
-  type Locale,
-} from "@/i18n/config";
+import { defaultLocale, type Locale } from "@/i18n/config";
 import { getMessages } from "@/i18n/messages";
-
-function getCurrentLocale(pathname: string, fallback: Locale): Locale {
-  const segment = pathname.split("/")[1];
-  return isLocale(segment) ? segment : fallback;
-}
-
-function getPathPrefix(pathname: string, locale: Locale): string {
-  const segment = pathname.split("/")[1];
-  return isLocale(segment) ? getLocalePathPrefix(locale) : "/";
-}
+import { getCurrentLocale, getPathPrefix } from "@/i18n/routing";
 
 export default function Header({
   locale = defaultLocale,
@@ -51,7 +37,7 @@ export default function Header({
       <div className="absolute inset-0 flex items-center justify-center">
         <div className="text-center">
           <Link
-            href={currentPathPrefix}
+            href={currentPathPrefix || "/"}
             className="text-2xl font-bold tracking-wider text-white drop-shadow-lg transition-opacity hover:opacity-80 sm:text-3xl"
           >
             {t.siteName}

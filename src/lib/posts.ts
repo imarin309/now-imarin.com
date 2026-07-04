@@ -145,13 +145,3 @@ export function getPageBySlug(
   const pages = getAllPages(locale);
   return pages.find((p) => p.slug === slug);
 }
-
-export function getPostContentPath(slug: string, locale: Locale): string {
-  const dir = getLocalizedContentDir(postsDir, locale);
-  return path.join(dir, `${slug}.mdx`);
-}
-
-export function getPageContentPath(slug: string, locale: Locale): string {
-  const dir = getLocalizedContentDir(pagesDir, locale);
-  return path.join(dir, `${slug}.mdx`);
-}
