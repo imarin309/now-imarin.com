@@ -41,6 +41,11 @@ export const messages: Record<
       intro: string;
       privacyNote: string;
     };
+    notFound: {
+      title: string;
+      description: string;
+      backHome: string;
+    };
   }
 > = {
   ja: {
@@ -77,6 +82,11 @@ export const messages: Record<
       privacyNote:
         "いただいた個人情報は、ご連絡・対応の目的にのみ使用し、第三者への提供は行いません。",
     },
+    notFound: {
+      title: "ページが見つかりませんでした",
+      description: "お探しのページは存在しないか、移動した可能性があります。",
+      backHome: "トップページへ戻る",
+    },
   },
   en: {
     siteName: "In the Moment",
@@ -112,6 +122,12 @@ export const messages: Record<
       intro: "For questions or feedback, please contact me by email.",
       privacyNote:
         "Personal information will only be used for replies and related correspondence.",
+    },
+    notFound: {
+      title: "Page not found",
+      description:
+        "The page you're looking for doesn't exist or may have been moved.",
+      backHome: "Back to home",
     },
   },
 };

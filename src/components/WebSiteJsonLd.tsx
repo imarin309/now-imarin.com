@@ -1,15 +1,13 @@
-"use client";
-
-import { usePathname } from "next/navigation";
 import { siteAuthor, siteUrl } from "@/constants/meta";
-import { defaultLocale } from "@/i18n/config";
+import { defaultLocale, type Locale } from "@/i18n/config";
 import { getMessages } from "@/i18n/messages";
-import { getCurrentLocale } from "@/i18n/routing";
 import { serializeJsonLd } from "@/lib/json-ld";
 
-export default function WebSiteJsonLd() {
-  const pathname = usePathname();
-  const locale = getCurrentLocale(pathname, defaultLocale);
+export default function WebSiteJsonLd({
+  locale = defaultLocale,
+}: {
+  locale?: Locale;
+}) {
   const t = getMessages(locale);
 
   const websiteJsonLd = {
