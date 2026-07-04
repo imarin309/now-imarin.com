@@ -22,6 +22,11 @@ function getCurrentLocale(pathname: string, fallback: Locale): Locale {
   return isLocale(segment) ? segment : fallback;
 }
 
+function getPathPrefix(pathname: string, locale: Locale): string {
+  const segment = pathname.split("/")[1];
+  return isLocale(segment) ? getLocalePathPrefix(locale) : "";
+}
+
 function getPathForLocale(pathname: string, locale: Locale): string {
   const segments = pathname.split("/");
   const firstSegment = segments[1];
@@ -52,7 +57,8 @@ export default function NavBar({
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
   const pathname = usePathname();
   const currentLocale = getCurrentLocale(pathname, locale);
-  const currentPathPrefix = pathPrefix ?? getLocalePathPrefix(currentLocale);
+  const currentPathPrefix =
+    pathPrefix ?? getPathPrefix(pathname, currentLocale);
   const t = getMessages(currentLocale);
 
   const closeMenu = useCallback(() => {
@@ -122,7 +128,7 @@ export default function NavBar({
         <div className="flex items-center justify-between">
           {/* アイコン + サイトタイトル */}
           <Link
-            href={currentPathPrefix}
+            href={currentPathPrefix || "/"}
             onClick={() => setIsMobileOpen(false)}
             className="flex items-center gap-2"
           >
@@ -141,7 +147,7 @@ export default function NavBar({
           {/* デスクトップ nav (sm以上) */}
           <div className="hidden items-center gap-6 text-sm font-medium sm:flex">
             <Link
-              href={currentPathPrefix}
+              href={currentPathPrefix || "/"}
               className="text-amber-700 transition-colors hover:text-orange-600"
             >
               {t.nav.home}
@@ -276,7 +282,7 @@ export default function NavBar({
         <div className="border-t border-orange-100 bg-orange-50/90 px-4 py-3 text-sm font-medium sm:hidden">
           <div className="flex flex-col gap-4">
             <Link
-              href={currentPathPrefix}
+              href={currentPathPrefix || "/"}
               onClick={() => setIsMobileOpen(false)}
               className="text-amber-700 transition-colors hover:text-orange-600"
             >

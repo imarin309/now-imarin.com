@@ -31,7 +31,6 @@ const randomSelect: PostSelector = (posts, count) => {
 
 interface RecommendedPostsClientProps {
   posts: PostSummary[];
-  postsByLocale?: Partial<Record<Locale, PostSummary[]>>;
   count?: number;
   selectPosts?: PostSelector;
   locale?: Locale;
@@ -41,6 +40,11 @@ interface RecommendedPostsClientProps {
 function getCurrentLocale(pathname: string, fallback: Locale): Locale {
   const segment = pathname.split("/")[1];
   return isLocale(segment) ? segment : fallback;
+}
+
+function getPathPrefix(pathname: string, locale: Locale): string {
+  const segment = pathname.split("/")[1];
+  return isLocale(segment) ? getLocalePathPrefix(locale) : "";
 }
 
 function Skeleton({ count }: { count: number }) {
@@ -64,7 +68,6 @@ function Skeleton({ count }: { count: number }) {
 
 export default function RecommendedPostsClient({
   posts,
-  postsByLocale,
   count = 3,
   selectPosts = randomSelect,
   locale = defaultLocale,
@@ -72,8 +75,9 @@ export default function RecommendedPostsClient({
 }: RecommendedPostsClientProps) {
   const pathname = usePathname();
   const currentLocale = getCurrentLocale(pathname, locale);
-  const currentPathPrefix = pathPrefix ?? getLocalePathPrefix(currentLocale);
-  const currentPosts = postsByLocale?.[currentLocale] ?? posts;
+  const currentPathPrefix =
+    pathPrefix ?? getPathPrefix(pathname, currentLocale);
+  const currentPosts = currentLocale === locale ? posts : [];
   const t = getMessages(currentLocale);
   const mounted = useSyncExternalStore(
     () => () => {},

@@ -14,6 +14,7 @@ import {
   getLocalePathPrefix,
   isLocale,
   localeMeta,
+  locales,
   type Locale,
 } from "@/i18n/config";
 
@@ -56,7 +57,6 @@ export async function generateMetadata({
 }
 
 export function generateStaticParams() {
-  const locales: Locale[] = ["ja", "en"];
   return locales.flatMap((locale) =>
     getAllPosts(locale).map((post) => ({
       locale,

@@ -4,14 +4,18 @@ import PostList from "@/components/PostList";
 import { POSTS_PER_PAGE } from "@/constants/config";
 import { getAllPosts } from "@/lib/posts";
 import { getAllTags, getTagName } from "@/constants/tag";
-import { getLocalePathPrefix, isLocale, type Locale } from "@/i18n/config";
+import {
+  getLocalePathPrefix,
+  isLocale,
+  locales,
+  type Locale,
+} from "@/i18n/config";
 
 type LocaleTagPageProps = {
   params: Promise<{ locale: string; tag: string }>;
 };
 
 export function generateStaticParams() {
-  const locales: Locale[] = ["ja", "en"];
   return locales.flatMap((locale) => {
     const posts = getAllPosts(locale);
     return getAllTags()

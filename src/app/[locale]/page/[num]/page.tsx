@@ -3,7 +3,12 @@ import type { Metadata } from "next";
 import PostList from "@/components/PostList";
 import { POSTS_PER_PAGE } from "@/constants/config";
 import { getAllPosts } from "@/lib/posts";
-import { getLocalePathPrefix, isLocale, type Locale } from "@/i18n/config";
+import {
+  getLocalePathPrefix,
+  isLocale,
+  locales,
+  type Locale,
+} from "@/i18n/config";
 import { getMessages } from "@/i18n/messages";
 
 type LocalePaginatedPageProps = {
@@ -31,7 +36,6 @@ export async function generateMetadata({
 }
 
 export function generateStaticParams() {
-  const locales: Locale[] = ["ja", "en"];
   return locales.flatMap((locale) => {
     const totalPages = Math.ceil(getAllPosts(locale).length / POSTS_PER_PAGE);
     if (totalPages <= 1) return [];

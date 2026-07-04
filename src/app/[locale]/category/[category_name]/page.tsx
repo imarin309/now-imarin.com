@@ -4,14 +4,18 @@ import PostList from "@/components/PostList";
 import { getAllCategories, getCategoryBySlug } from "@/constants/category";
 import { POSTS_PER_PAGE } from "@/constants/config";
 import { getAllPosts } from "@/lib/posts";
-import { getLocalePathPrefix, isLocale, type Locale } from "@/i18n/config";
+import {
+  getLocalePathPrefix,
+  isLocale,
+  locales,
+  type Locale,
+} from "@/i18n/config";
 
 type LocaleCategoryPageProps = {
   params: Promise<{ locale: string; category_name: string }>;
 };
 
 export function generateStaticParams() {
-  const locales: Locale[] = ["ja", "en"];
   return locales.flatMap((locale) => {
     const posts = getAllPosts(locale);
     return getAllCategories()

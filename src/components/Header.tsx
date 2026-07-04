@@ -15,6 +15,11 @@ function getCurrentLocale(pathname: string, fallback: Locale): Locale {
   return isLocale(segment) ? segment : fallback;
 }
 
+function getPathPrefix(pathname: string, locale: Locale): string {
+  const segment = pathname.split("/")[1];
+  return isLocale(segment) ? getLocalePathPrefix(locale) : "/";
+}
+
 export default function Header({
   locale = defaultLocale,
   pathPrefix,
@@ -24,7 +29,8 @@ export default function Header({
 }) {
   const pathname = usePathname();
   const currentLocale = getCurrentLocale(pathname, locale);
-  const currentPathPrefix = pathPrefix ?? getLocalePathPrefix(currentLocale);
+  const currentPathPrefix =
+    pathPrefix ?? getPathPrefix(pathname, currentLocale);
   const t = getMessages(currentLocale);
 
   return (

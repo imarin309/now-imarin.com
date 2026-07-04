@@ -4,7 +4,12 @@ import PostList from "@/components/PostList";
 import { POSTS_PER_PAGE } from "@/constants/config";
 import { getAllPosts } from "@/lib/posts";
 import { getAllTags } from "@/constants/tag";
-import { getLocalePathPrefix, isLocale, type Locale } from "@/i18n/config";
+import {
+  getLocalePathPrefix,
+  isLocale,
+  locales,
+  type Locale,
+} from "@/i18n/config";
 import { getMessages } from "@/i18n/messages";
 
 type LocaleTagPaginatedPageProps = {
@@ -12,7 +17,6 @@ type LocaleTagPaginatedPageProps = {
 };
 
 export function generateStaticParams() {
-  const locales: Locale[] = ["ja", "en"];
   return locales.flatMap((locale) => {
     const posts = getAllPosts(locale);
     return getAllTags().flatMap(({ slug }) => {

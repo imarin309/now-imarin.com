@@ -2,7 +2,7 @@ import { getAllPosts } from "@/lib/posts";
 import RecommendedPostsClient, {
   type PostSummary,
 } from "./RecommendedPostsClient";
-import { defaultLocale, locales, type Locale } from "@/i18n/config";
+import { defaultLocale, type Locale } from "@/i18n/config";
 
 function toPostSummaries(locale: Locale): PostSummary[] {
   const posts = getAllPosts(locale);
@@ -24,14 +24,11 @@ export default function RecommendedPosts({
   locale?: Locale;
   pathPrefix?: string;
 }) {
-  const postsByLocale = Object.fromEntries(
-    locales.map((item) => [item, toPostSummaries(item)]),
-  ) as Record<Locale, PostSummary[]>;
+  const posts = toPostSummaries(locale);
 
   return (
     <RecommendedPostsClient
-      posts={postsByLocale[locale]}
-      postsByLocale={postsByLocale}
+      posts={posts}
       locale={locale}
       pathPrefix={pathPrefix}
     />
