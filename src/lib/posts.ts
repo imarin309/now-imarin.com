@@ -156,7 +156,8 @@ export function getAvailablePostLocales(slug: string): Locale[] {
 
 export function getAllPages(locale: Locale = defaultLocale): Page[] {
   const dir = getLocalizedContentDir(pagesDir, locale);
-  const files = getMDXFiles(dir);
+  const excludeDirs = locale === defaultLocale ? otherLocaleDirs : [];
+  const files = getMDXFiles(dir, excludeDirs);
   return files.map((file) => parsePage(file, locale));
 }
 
