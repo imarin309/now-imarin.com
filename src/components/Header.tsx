@@ -30,7 +30,7 @@ export default function Header({
           src="https://assets.now-imarin.com/meta/header-mobile.webp"
           alt={t.siteName}
           fetchPriority="high"
-          className="h-auto w-full"
+          className="h-auto w-full sm:h-64 sm:object-cover md:h-72"
         />
       </picture>
       <div className="absolute inset-0 bg-orange-950/40" />
