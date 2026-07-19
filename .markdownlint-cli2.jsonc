@@ -3,7 +3,7 @@
   "config": {
     "MD013": false,
     "MD033": {
-      "allowed_elements": ["RakutenCard", "RakutenCardImage", "Tweet"],
+      "allowed_elements": ["RakutenCard", "RakutenCardImage", "Tweet", "Callout"],
     },
     "MD036": false,
     "MD001": false,
