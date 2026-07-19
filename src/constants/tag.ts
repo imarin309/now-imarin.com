@@ -20,6 +20,7 @@ export const tags: Tag[] = [
   { slug: "kiseki", names: { ja: "軌跡", en: "Trails" } },
   { slug: "gunvolt", names: { ja: "ガンヴォルト", en: "Gunvolt" } },
   { slug: "youzitsu", names: { ja: "よう実", en: "Classroom of the Elite" } },
+  { slug: "zanadu", names: { ja: "ザナドゥ", en: "Xanadu" } },
 ];
 
 /**
