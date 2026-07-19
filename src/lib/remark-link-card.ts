@@ -54,7 +54,12 @@ const URL_REGEX = /^https?:\/\/\S+$/;
 
 export const remarkLinkCard: Plugin<[], Root> = () => {
   return async (tree) => {
-    const tasks: Array<{ parent: Parent; index: number; url: string }> = [];
+    const tasks: Array<{
+      parent: Parent;
+      index: number;
+      url: string;
+      label?: string;
+    }> = [];
 
     visit(tree, "paragraph", (node: Paragraph, index, parent) => {
       if (index === undefined || !parent) return;
@@ -62,19 +67,23 @@ export const remarkLinkCard: Plugin<[], Root> = () => {
 
       const child = node.children[0];
       let url: string | null = null;
+      let label: string | undefined;
 
       if (child.type === "link") {
         const linkText = child.children
           .map((c) => ("value" in c ? c.value : ""))
           .join("");
-        if (linkText === child.url && URL_REGEX.test(child.url))
-          url = child.url;
+        if (!URL_REGEX.test(child.url)) return;
+        url = child.url;
+        const trimmedLabel = linkText.trim();
+        if (trimmedLabel !== child.url && trimmedLabel !== "")
+          label = trimmedLabel;
       } else if (child.type === "text" && URL_REGEX.test(child.value.trim())) {
         url = child.value.trim();
       }
 
       if (url) {
-        tasks.push({ parent, index, url });
+        tasks.push({ parent, index, url, label });
       }
     });
 
@@ -88,7 +97,7 @@ export const remarkLinkCard: Plugin<[], Root> = () => {
     }
 
     await Promise.all(
-      tasks.map(async ({ parent, index, url }) => {
+      tasks.map(async ({ parent, index, url, label }) => {
         const ogp = ogpCache.get(url)!;
         parent.children[index] = {
           type: "mdxJsxFlowElement",
@@ -103,6 +112,15 @@ export const remarkLinkCard: Plugin<[], Root> = () => {
             },
             { type: "mdxJsxAttribute", name: "image", value: ogp.image },
             { type: "mdxJsxAttribute", name: "favicon", value: ogp.favicon },
+            ...(label
+              ? [
+                  {
+                    type: "mdxJsxAttribute" as const,
+                    name: "label",
+                    value: label,
+                  },
+                ]
+              : []),
           ],
           children: [],
         };
