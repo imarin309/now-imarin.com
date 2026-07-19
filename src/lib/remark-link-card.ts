@@ -75,7 +75,9 @@ export const remarkLinkCard: Plugin<[], Root> = () => {
           .join("");
         if (!URL_REGEX.test(child.url)) return;
         url = child.url;
-        if (linkText !== child.url) label = linkText;
+        const trimmedLabel = linkText.trim();
+        if (trimmedLabel !== child.url && trimmedLabel !== "")
+          label = trimmedLabel;
       } else if (child.type === "text" && URL_REGEX.test(child.value.trim())) {
         url = child.value.trim();
       }
@@ -111,7 +113,13 @@ export const remarkLinkCard: Plugin<[], Root> = () => {
             { type: "mdxJsxAttribute", name: "image", value: ogp.image },
             { type: "mdxJsxAttribute", name: "favicon", value: ogp.favicon },
             ...(label
-              ? [{ type: "mdxJsxAttribute", name: "label", value: label }]
+              ? [
+                  {
+                    type: "mdxJsxAttribute" as const,
+                    name: "label",
+                    value: label,
+                  },
+                ]
               : []),
           ],
           children: [],
